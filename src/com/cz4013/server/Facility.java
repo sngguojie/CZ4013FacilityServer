@@ -10,14 +10,14 @@ public class Facility {
     public static HashMap<String, Facility> facilityHashMap = new HashMap<String, Facility>();
 
     public String name;
-    public enum DAYS {MON, TUE, WED, THU, FRI, SAT, SUN};
-    public HashMap<DAYS, ArrayList<Booking>> bookings = new HashMap<DAYS, ArrayList<Booking>>();
+
+    public HashMap<Booking.DAYS, ArrayList<Booking>> bookings = new HashMap<Booking.DAYS, ArrayList<Booking>>();
     public ArrayList<Monitor> monitorList = new ArrayList<Monitor>();
 
 
     public Facility (String name) {
         this.name = name;
-        for (DAYS day : DAYS.values()) {
+        for (Booking.DAYS day : Booking.DAYS.values()) {
             this.bookings.put(day, new ArrayList<Booking>());
         }
     }
