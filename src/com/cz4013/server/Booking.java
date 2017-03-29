@@ -5,12 +5,13 @@ package com.cz4013.server;
  */
 public class Booking {
 
+    public enum DAYS {MON, TUE, WED, THU, FRI, SAT, SUN};
     public int start;
     public int end;
-    public Facility.DAYS day;
+    public DAYS day;
     public Facility facility;
 
-    public Booking (int start, int end, Facility.DAYS day, Facility facility) {
+    public Booking (int start, int end, DAYS day, Facility facility) {
         this.start = start;
         this.end = end;
         this.day = day;
