@@ -47,4 +47,18 @@ public class Data {
     public String getMethodId(){
         return this.methodId;
     }
+
+    public String toString(){
+        String result = "ObjectReference: " + this.objectReference + "\n";
+        result += "MethodId: " + this.methodId + "\n";
+        for (String s : this.stringList){
+            result += s + "\n";
+        }
+
+        for (int i : this.intList){
+            result += i + "\n";
+        }
+
+        return result;
+    }
 }

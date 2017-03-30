@@ -134,13 +134,15 @@ public class CommunicationModule extends Thread {
     }
 
     private RemoteObject getRemoteObject (byte[] payload) {
+        System.out.println("getRemoteObject");
         DATATYPE dataType = getDataType(Arrays.copyOfRange(payload, 0, 4));
         if (dataType != DATATYPE.STRING) {
             return null;
         }
         int stringLen = ByteBuffer.wrap(Arrays.copyOfRange(payload, 4, 8)).getInt();
-        stringLen += 4 - (stringLen % 4);
-        String objectRefName = Arrays.copyOfRange(payload, 8, 8 + stringLen).toString();
+//        stringLen += 4 - (stringLen % 4);
+        String objectRefName = new String(Arrays.copyOfRange(payload, 8, 8 + stringLen));
+        System.out.println(objectRefName);
         return objectReferenceHashMap.get(objectRefName);
     }
 
@@ -188,7 +190,9 @@ public class CommunicationModule extends Thread {
     }
 
     private byte[] getRemoteObjectResponse (byte[] requestBody) {
+        System.out.println("getRemoteObjectResponse");
         RemoteObject remoteObject = getRemoteObject(requestBody);
+
         return remoteObject.handleRequest(Arrays.copyOfRange(requestBody,1,requestBody.length));
     }
 
