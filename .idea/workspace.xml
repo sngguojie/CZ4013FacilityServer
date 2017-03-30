@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eefd3f3d-2edd-47a6-addb-7933b41c835e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cz4013/server/Data.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cz4013/server/Binder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -74,7 +73,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BookingSystemSkeleton.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BookingSystemSkeleton.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1395">
@@ -89,6 +88,26 @@
                 <element signature="method#marshal#0;class#BookingSystemSkeleton#0" expanded="false" />
                 <element signature="method#addIntToByteArray#0;class#BookingSystemSkeleton#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Facility$DAYS.class" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Facility$DAYS.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Binder.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Binder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -162,6 +181,7 @@
         <option value="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/Data.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" />
+        <option value="$PROJECT_DIR$/src/com/cz4013/server/Binder.java" />
       </list>
     </option>
   </component>
@@ -230,6 +250,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.cz4013.server" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.cz4013.server" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -676,6 +699,22 @@
             <element signature="method#marshal#0;class#BookingSystemSkeleton#0" expanded="false" />
             <element signature="method#addIntToByteArray#0;class#BookingSystemSkeleton#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Facility$DAYS.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Binder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
