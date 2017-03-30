@@ -64,7 +64,7 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
                 break;
             default: break;
         }
-        String[] stringArray = {"BookingSystemProxy", result};
+        String[] stringArray = {"BookingSystemProxy", methodName, result};
         int[] intArray = {1};
         return MarshalModule.marshal(stringArray, intArray);
     }
