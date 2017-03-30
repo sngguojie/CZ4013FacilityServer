@@ -12,9 +12,7 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
     final int BYTE_CHUNK_SIZE = 4;
     CommunicationModule communicationModule;
 
-    public MonitorBroadcastProxy (CommunicationModule communicationModule) {
-        this.communicationModule = communicationModule;
-        this.communicationModule.addObjectReference("MonitorBroadcastProxy", this);
+    public MonitorBroadcastProxy () {
     }
 
     public void displayAvailability(String availability) {
@@ -83,6 +81,10 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
         byte[] intByteArray = ByteBuffer.allocate(BYTE_CHUNK_SIZE).putInt(i).array();
         System.arraycopy(intByteArray, 0, byteArray, startIndex, intByteArray.length);
         return byteArray;
+    }
+
+    public void setCommunicationModule (CommunicationModule cm) {
+        this.communicationModule = cm;
     }
 
 }

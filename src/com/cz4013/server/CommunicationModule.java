@@ -134,9 +134,16 @@ public class CommunicationModule extends Thread {
     }
 
     private RemoteObject getRemoteObject (byte[] payload) {
-        Data data = MarshalModule.unmarshal(payload);
-        System.out.println(data.toString());
-        String objectRefName = data.getObjectReference();
+
+        System.out.println(new String(payload));
+        DATATYPE dataType = getDataType(Arrays.copyOfRange(payload, 0, 4));
+        if (dataType != DATATYPE.STRING) {
+            return null;
+        }
+        int stringLen = ByteBuffer.wrap(Arrays.copyOfRange(payload, 4, 8)).getInt();
+//        stringLen += 4 - (stringLen % 4);
+        String objectRefName = new String(Arrays.copyOfRange(payload, 8, 8 + stringLen));
+
         System.out.println(objectRefName);
         System.out.println(binder.getObjectReference(objectRefName).toString());
         return binder.getObjectReference(objectRefName);

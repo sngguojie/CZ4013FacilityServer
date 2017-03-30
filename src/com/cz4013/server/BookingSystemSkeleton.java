@@ -15,10 +15,8 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
     private enum DATATYPE{STRING, INTEGER};
     CommunicationModule communicationModule;
 
-    public BookingSystemSkeleton (CommunicationModule communicationModule) {
-        this.bs = new BookingSystemImpl();
-        this.communicationModule = communicationModule;
-        this.communicationModule.addObjectReference("BookingSystemSkeleton", this);
+    public BookingSystemSkeleton () {
+
     }
 
     public byte[] handleRequest (byte[] requestBody) {
@@ -94,4 +92,11 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
     public String listFacilities (){
         return bs.listFacilities ();
     };
+
+    public void setCommunicationModule (CommunicationModule cm) {
+        this.communicationModule = cm;
+    }
+    public void setBookingSystem (BookingSystemImpl bsi) {
+        this.bs = bsi;
+    }
 }

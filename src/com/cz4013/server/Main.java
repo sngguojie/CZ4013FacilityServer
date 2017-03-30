@@ -8,9 +8,20 @@ public class Main {
 	// write your code here
         Binder b = new Binder();
         CommunicationModule communicationModule = new CommunicationModule();
+        BookingSystemSkeleton bss = new BookingSystemSkeleton();
+        MonitorBroadcastProxy mbp = new MonitorBroadcastProxy();
+        BookingSystemImpl bsi = new BookingSystemImpl();
+
         communicationModule.setBinder(b);
-        new BookingSystemSkeleton(communicationModule);
-        new MonitorBroadcastProxy(communicationModule);
+        mbp.setCommunicationModule(communicationModule);
+        bss.setCommunicationModule(communicationModule);
+
+        bss.setBookingSystem(bsi);
+
+
+
+
+
         communicationModule.start();
     }
 }
