@@ -6,20 +6,10 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import java.io.IOException;
-import java.net.*;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-
-/**
- * Created by melvynsng on 3/30/17.
- */
 public class CommunicationModule extends Thread {
     protected boolean isRunning = true;
     protected DatagramSocket socket = null;
-    protected HashMap<String, RemoteObject> objectReference = new HashMap<String, RemoteObject>();
+    protected HashMap<String, RemoteObject> objectReferenceHashMap = new HashMap<String, RemoteObject>();
     protected HashMap<byte[], byte[]> messageHistory = new HashMap<byte[], byte[]>();
     protected enum MSGTYPE {IDEMPOTENT_REQUEST, NON_IDEMPOTENT_REQUEST, IDEMPOTENT_RESPONSE, NON_IDEMPOTENT_RESPONSE};
     protected enum DATATYPE {STRING, INT};
@@ -39,6 +29,9 @@ public class CommunicationModule extends Thread {
         String[] localHostString = InetAddress.getLocalHost().toString().split("/");
         System.out.println(localHostString[localHostString.length - 1]);
         serverAddress = InetAddress.getByName(localHostString[localHostString.length - 1]);
+
+        objectReferenceHashMap.put("MonitorBroadcastProxy", new MonitorBroadcastProxy(this));
+        objectReferenceHashMap.put("BookingSystemSkeleton", new BookingSystemSkeleton(this));
     }
 
     public void run () {
@@ -150,7 +143,7 @@ public class CommunicationModule extends Thread {
         int stringLen = ByteBuffer.wrap(Arrays.copyOfRange(payload, 4, 8)).getInt();
         stringLen += 4 - (stringLen % 4);
         String objectRefName = Arrays.copyOfRange(payload, 8, 8 + stringLen).toString();
-        return objectReference.get(objectRefName);
+        return objectReferenceHashMap.get(objectRefName);
     }
 
     private void handlePacketIn(byte[] payload, InetAddress address, int port) throws IOException {

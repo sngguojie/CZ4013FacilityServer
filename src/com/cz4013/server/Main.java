@@ -6,6 +6,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 	// write your code here
-        new CommunicationModule().start();
+        CommunicationModule communicationModule = new CommunicationModule();
+        new BookingSystemSkeleton(communicationModule);
+        new MonitorBroadcastProxy(communicationModule);
+        communicationModule.start();
     }
 }

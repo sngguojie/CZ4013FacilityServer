@@ -5,6 +5,6 @@ package com.cz4013.server;
  */
 public interface MonitorBroadcast {
 
-    void displayAvailability(String availability);
+    public void displayAvailability(String availability);
 
 }
