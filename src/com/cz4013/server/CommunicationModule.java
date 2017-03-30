@@ -26,7 +26,7 @@ public class CommunicationModule extends Thread {
     public CommunicationModule(String name, int PORT) throws IOException {
         super(name);
         socket = new DatagramSocket(new InetSocketAddress(PORT));
-        serverPort = PORT;
+//        serverPort = PORT;
         String[] localHostString = InetAddress.getLocalHost().toString().split("/");
         System.out.println(localHostString[localHostString.length - 1]);
         serverAddress = InetAddress.getByName(localHostString[localHostString.length - 1]);

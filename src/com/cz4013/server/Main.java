@@ -19,8 +19,8 @@ public class Main {
         bss.setBookingSystem(bsi);
         bsi.setMonitorBroadcastProxy(mbp);
 
-        b.addObjectReference("BookingSystemSkeleton", bss);
         b.addObjectReference("MonitorBroadcastProxy", mbp);
+        b.addObjectReference("BookingSystemSkeleton", bss);
 
 
 
