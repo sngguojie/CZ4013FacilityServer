@@ -67,7 +67,8 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
             default: break;
         }
         String[] stringArray = {"BookingSystemProxy", result};
-        return MarshalModule.marshal(stringArray, null);
+        int[] intArray = {1};
+        return MarshalModule.marshal(stringArray, intArray);
     }
 
     public String getFacilityAvailability (String facilityName, int d){
@@ -91,11 +92,6 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
     };
 
     public String listFacilities (){
-        return listFacilities ();
+        return bs.listFacilities ();
     };
-
-    public String createFacility (String facilityName){
-        return createFacility ( facilityName);
-    };
-
 }

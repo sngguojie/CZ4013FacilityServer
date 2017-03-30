@@ -20,12 +20,7 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
     public void displayAvailability(String availability) {
         String[] data = {"MonitorBroadcastSkeleton", "displayAvailability", availability};
         byte[] marshalledBytes = marshal(data, null);
-        try {
-            communicationModule.sendPayload(marshalledBytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        communicationModule.sendRequest(marshalledBytes);
     }
 
     public byte[] handleRequest (byte[] requestBody) {

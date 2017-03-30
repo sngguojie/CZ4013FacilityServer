@@ -9,13 +9,14 @@ import java.util.HashMap;
 public class CommunicationModule extends Thread {
     protected boolean isRunning = true;
     protected DatagramSocket socket = null;
-    protected HashMap<String, RemoteObject> objectReferenceHashMap = new HashMap<String, RemoteObject>();
     protected HashMap<byte[], byte[]> messageHistory = new HashMap<byte[], byte[]>();
     protected enum MSGTYPE {IDEMPOTENT_REQUEST, NON_IDEMPOTENT_REQUEST, IDEMPOTENT_RESPONSE, NON_IDEMPOTENT_RESPONSE};
     protected enum DATATYPE {STRING, INT};
     protected InetAddress serverAddress;
     protected int serverPort;
     protected HashMap<Integer, byte[]> requestHistory = new HashMap<Integer,byte[]>();
+    private Binder binder;
+    private final int MAX_BYTE_SIZE = 1024;
 
     public CommunicationModule() throws IOException {
         // PORT 2222 is default for NTU computers
@@ -35,12 +36,11 @@ public class CommunicationModule extends Thread {
         System.out.println("CommunicationModule Running");
         while (this.isRunning) {
             try {
-                byte[] buf = new byte[256];
+                byte[] buf = new byte[MAX_BYTE_SIZE];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
                 InetAddress address = packet.getAddress();
                 int port = packet.getPort();
-                System.out.println(port);
                 handlePacketIn(packet.getData(), address, port);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -134,16 +134,12 @@ public class CommunicationModule extends Thread {
     }
 
     private RemoteObject getRemoteObject (byte[] payload) {
-        System.out.println("getRemoteObject");
-        DATATYPE dataType = getDataType(Arrays.copyOfRange(payload, 0, 4));
-        if (dataType != DATATYPE.STRING) {
-            return null;
-        }
-        int stringLen = ByteBuffer.wrap(Arrays.copyOfRange(payload, 4, 8)).getInt();
-//        stringLen += 4 - (stringLen % 4);
-        String objectRefName = new String(Arrays.copyOfRange(payload, 8, 8 + stringLen));
+        Data data = MarshalModule.unmarshal(payload);
+        System.out.println(data.toString());
+        String objectRefName = data.getObjectReference();
         System.out.println(objectRefName);
-        return objectReferenceHashMap.get(objectRefName);
+        System.out.println(binder.getObjectReference(objectRefName).toString());
+        return binder.getObjectReference(objectRefName);
     }
 
     private void handlePacketIn(byte[] payload, InetAddress address, int port) throws IOException {
@@ -163,24 +159,32 @@ public class CommunicationModule extends Thread {
                 outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
                 outBody = getRemoteObjectResponse(inBody);
                 out = combineByteArrays(outHead, outBody);
-                sendPacketOut(out, address, port);
+                sendReponsePacketOut(out, address, port);
                 break;
             case NON_IDEMPOTENT_REQUEST:
                 if (messageHistory.containsKey(inHead)) {
                     out = messageHistory.get(inHead);
-                    sendPacketOut(out, address, port);
+                    sendReponsePacketOut(out, address, port);
                     break;
                 }
                 outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
                 outBody = getRemoteObjectResponse(inBody);
                 out = combineByteArrays(outHead, outBody);
                 messageHistory.put(inHead,out);
-                sendPacketOut(out, address, port);
+                sendReponsePacketOut(out, address, port);
                 break;
             case IDEMPOTENT_RESPONSE:
+                if (messageHistory.containsKey(inHead)) {
+                    break;
+                }
+                messageHistory.put(inHead, inBody);
                 getRemoteObjectResponse(inBody);
                 break;
             case NON_IDEMPOTENT_RESPONSE:
+                if (messageHistory.containsKey(inHead)) {
+                    break;
+                }
+                messageHistory.put(inHead, inBody);
                 getRemoteObjectResponse(inBody);
                 break;
             default:
@@ -190,10 +194,9 @@ public class CommunicationModule extends Thread {
     }
 
     private byte[] getRemoteObjectResponse (byte[] requestBody) {
-        System.out.println("getRemoteObjectResponse");
+        System.out.println(MarshalModule.unmarshal(requestBody).toString());
         RemoteObject remoteObject = getRemoteObject(requestBody);
-
-        return remoteObject.handleRequest(Arrays.copyOfRange(requestBody,1,requestBody.length));
+        return remoteObject.handleRequest(Arrays.copyOfRange(requestBody,0,requestBody.length));
     }
 
     private int getNewRequestId () {
@@ -204,44 +207,114 @@ public class CommunicationModule extends Thread {
         return i;
     }
 
-    public void sendReponse (byte[] data) {
 
+    public byte[] sendRequest(byte[] data) {
+        return sendRequest(data, serverAddress, serverPort);
     }
 
-    public void sendReponse (byte[] data, InetAddress address, int port) {
-
+    public void sendResponse(byte[] data) {
+        sendResponse(data, serverAddress, serverPort);
     }
 
-    public void sendPayload (byte[] data) throws IOException {
-        sendPayload(data, serverAddress, serverPort);
+    public byte[] sendRequest(byte[] data, InetAddress address, int port) {
+        System.out.println("sendRequest");
+        try {
+            byte[] payload = makePayload(data);
+            return sendRequestPacketOut(payload, address, port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public void sendPayload (byte[] data, InetAddress address, int port) throws IOException {
+    public void sendResponse(byte[] data, InetAddress address, int port) {
+        try {
+            byte[] payload = makePayload(data);
+            sendReponsePacketOut(payload, address, port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private byte[] makePayload (byte[] data) throws IOException {
         int requestIdInt = getNewRequestId();
         byte[] outHead = getResponseHead(MSGTYPE.IDEMPOTENT_REQUEST, requestIdInt);
         byte[] out = combineByteArrays(outHead, data);
         requestHistory.put(requestIdInt,out);
-        sendPacketOut(out, address, port);
+        return out;
     }
 
-    private void sendPacketOut (byte[] payload, InetAddress address, int port) throws IOException {
+    private void sendReponsePacketOut (byte[] payload, InetAddress address, int port) throws IOException {
         if (payload == null) {
             return;
         }
-
         // send request
-        try {
-            byte[] buf = payload;
-            DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
-            socket.setSoTimeout(5000);
-            socket.send(packet);
-        } catch (SocketTimeoutException ste) {
-            sendPacketOut(payload, address, port);
+        byte[] buf = payload;
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+        socket.send(packet);
+    }
+
+    private byte[] sendRequestPacketOut (byte[] payload, InetAddress address, int port) throws IOException {
+        if (payload == null) {
+            return null;
         }
+        System.out.println("sendRequestPacketOut");
+        boolean resend = true;
+        byte[] requestIdBytesOut = new byte[2];
+        System.arraycopy(payload, 2, requestIdBytesOut, 0, 2);
+        int requestIdOut = getBytesAsHalfWord(requestIdBytesOut);
+        // send request
+        do {
+            try {
+                byte[] buf = payload;
+
+                //Debug
+                System.out.println(new String(buf));
+                byte[] temp = Arrays.copyOfRange(buf,4,buf.length-4);
+                System.out.println(new String(temp));
+                System.out.println(MarshalModule.unmarshal(temp).toString());
+                //endDebug
+
+                DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+                System.out.println("b4socket.setSoTimeout(5000);");
+//                socket.setSoTimeout(5000);
+                System.out.println("socket.setSoTimeout(5000);");
+                socket.send(packet);
+
+                byte[] bufIn = new byte[MAX_BYTE_SIZE];
+                packet = new DatagramPacket(bufIn, bufIn.length);
+                System.out.println("b4socket.receive(packet)");
+                socket.receive(packet);
+                System.out.println("socket.receive(packet)");
+                InetAddress addressIn = packet.getAddress();
+                int portIn = packet.getPort();
+                byte[] data = packet.getData();
+                byte messageTypeByte = data[0];
+                byte idempotentTypeByte = data[1];
+                byte[] requestIdBytesIn = new byte[2];
+                System.arraycopy(data, 2, requestIdBytesIn, 0, 2);
+                int requestIdIn = getBytesAsHalfWord(requestIdBytesIn);
+                MSGTYPE messageType = getMessageType(messageTypeByte, idempotentTypeByte);
+                boolean isResponse = (messageType == MSGTYPE.IDEMPOTENT_RESPONSE || messageType == MSGTYPE.NON_IDEMPOTENT_RESPONSE);
+                if (isResponse && requestIdIn == requestIdOut) {
+                    byte[] inBody = Arrays.copyOfRange(data, 4, payload.length);
+                    return  inBody;
+                } else {
+                    handlePacketIn(data, addressIn, portIn);
+                }
+            } catch (SocketTimeoutException ste) {
+                sendRequestPacketOut(payload, address, port);
+            }
+        } while(resend);
+        return null;
     }
 
     public void addObjectReference(String name, RemoteObject objRef){
-        this.objectReferenceHashMap.put(name, objRef);
+        this.binder.addObjectReference(name, objRef);
+    }
+
+    public void setBinder(Binder binder){
+        this.binder = binder;
     }
 
 }

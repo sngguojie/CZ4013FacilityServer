@@ -24,9 +24,9 @@ public class MarshalModule {
 
         // leave space for messageType and requestId to be filled in by communication module
         int startByte = 0;
-        int strType = 0;
+        int strType = 1;
         int strTypePadding = 3;
-        int intType = 1;
+        int intType = 2;
         int intTypePadding = 3;
 
         for (String str : strings){
@@ -41,6 +41,9 @@ public class MarshalModule {
             for (int i = 0; i < ch.length; i++){
                 outBuf[startByte] = (byte)ch[i];
                 startByte++;
+                if (i == ch.length-1) {
+                    startByte--;
+                }
             }
 
             startByte = incrementByteIndex(startByte);
@@ -60,7 +63,6 @@ public class MarshalModule {
     }
 
     public static Data unmarshal(byte[] byteArray){
-        System.out.println("unmarshal");
         int startByte = 0;
         byte[] chunk = new byte[4];
         Data data = new Data();
@@ -68,7 +70,6 @@ public class MarshalModule {
         String methodId = null;
 
         while(startByte < byteArray.length){
-            System.out.println("while");
             System.arraycopy(byteArray, startByte, chunk, 0, chunk.length);
             startByte += BYTE_CHUNK_SIZE;
             if (isEmpty(chunk)){
@@ -76,7 +77,7 @@ public class MarshalModule {
             }
             ByteBuffer wrapped = ByteBuffer.wrap(chunk);
             try {
-                DATATYPE dataType = DATATYPE.values()[wrapped.getInt()];
+                DATATYPE dataType = DATATYPE.values()[wrapped.getInt()-1];
                 if (dataType == DATATYPE.STRING){
                     System.arraycopy(byteArray, startByte, chunk, 0, chunk.length);
                     startByte += BYTE_CHUNK_SIZE;
@@ -88,6 +89,7 @@ public class MarshalModule {
                         startByte += BYTE_CHUNK_SIZE;
                         str += new String(chunk);
                     }
+                    str = str.substring(0, strLength);
                     if (objectReference == null){
                         objectReference = str;
                         data.setObjectReference(objectReference);
@@ -97,7 +99,7 @@ public class MarshalModule {
                     } else {
                         data.addString(str);
                     }
-                    data.addString(str);
+
                 } else if (dataType == DATATYPE.INTEGER){
                     System.arraycopy(byteArray, startByte, chunk, 0, chunk.length);
                     startByte += BYTE_CHUNK_SIZE;
@@ -115,14 +117,12 @@ public class MarshalModule {
     }
 
     public static boolean isEmpty(byte[] byteArray){
-        System.out.println("isEmpty");
         boolean empty = true;
         for (byte b : byteArray){
             if (b != 0){
                 empty = false;
             }
         }
-        System.out.println(empty);
         return empty;
     }
 
