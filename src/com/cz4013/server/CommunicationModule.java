@@ -37,6 +37,7 @@ public class CommunicationModule extends Thread {
         socket = new DatagramSocket(new InetSocketAddress(PORT));
         serverPort = PORT;
         String[] localHostString = InetAddress.getLocalHost().toString().split("/");
+        System.out.println(localHostString[localHostString.length - 1]);
         serverAddress = InetAddress.getByName(localHostString[localHostString.length - 1]);
     }
 
