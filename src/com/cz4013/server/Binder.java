@@ -15,4 +15,12 @@ public class Binder {
     public RemoteObject getObjectReference(String name){
         return this.objectReferenceHashMap.get(name);
     }
+
+    public String toString(){
+        String result = "";
+        for (String s : objectReferenceHashMap.keySet()){
+            result += s + "\n";
+        }
+        return result;
+    }
 }

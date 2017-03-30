@@ -17,8 +17,10 @@ public class Main {
         bss.setCommunicationModule(communicationModule);
 
         bss.setBookingSystem(bsi);
+        bsi.setMonitorBroadcastProxy(mbp);
 
-
+        b.addObjectReference("BookingSystemSkeleton", bss);
+        b.addObjectReference("MonitorBroadcastProxy", mbp);
 
 
 

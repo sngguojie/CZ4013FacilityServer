@@ -19,8 +19,12 @@ public class Booking {
     }
 
     public String toString () {
-        return Integer.toString(start) + "-"
-                + Integer.toString(end);
+        int startHour = start / 60;
+        int startMinute = start % 60;
+        int endHour = end / 60;
+        int endMinute = end % 60;
+        return Integer.toString(startHour) + ":" + Integer.toString(startMinute) + "-"
+                + Integer.toString(endHour) + ":" + Integer.toString(endMinute);
     }
 
     public boolean conflict (Booking other) {

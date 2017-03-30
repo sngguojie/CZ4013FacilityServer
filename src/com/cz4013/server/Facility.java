@@ -30,4 +30,30 @@ public class Facility {
         return true;
     }
 
+    public String getWeekAvailability () {
+        String result = this.name + "\n";
+        for (Booking.DAYS d : this.bookings.keySet()) {
+            String dayString = getDayString(d);
+            result += dayString + " ";
+            for (Booking b : this.bookings.get(d)) {
+                result += b.toString() + " ";
+            }
+            result += "\n";
+        }
+        return result;
+    }
+
+    public String getDayString (Booking.DAYS Bday) {
+        switch (Bday) {
+            case MON: return "MON";
+            case TUE: return "TUE";
+            case WED: return "WED";
+            case THU: return "THU";
+            case FRI: return "FRI";
+            case SAT: return "SAT";
+            case SUN: return "SUN";
+            default: return null;
+        }
+    }
+
 }

@@ -27,36 +27,36 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
         System.out.println(methodName);
 
         String result = "Error Unrecognised";
-        String facilityName, address;
-        int day, start, end, confirmID, offset, interval, port;
+        String facilityName, address, confirmID, days;
+        int day, start, end, offset, interval, port;
         switch (methodName) {
             case "getFacilityAvailability": // Idempotent
-                facilityName = unmarshalledData.getStringList().get(1);
-                day = Integer.parseInt(unmarshalledData.getStringList().get(2));
-                result = getFacilityAvailability(facilityName, day);
+                facilityName = unmarshalledData.getStringList().get(0);
+                days = unmarshalledData.getStringList().get(1);
+                result = getFacilityAvailability(facilityName, days);
                 break;
             case "bookFacility": // Non Idempotent
-                facilityName = unmarshalledData.getStringList().get(1);
-                day = Integer.parseInt(unmarshalledData.getStringList().get(2));
-                start = Integer.parseInt(unmarshalledData.getStringList().get(3));
-                end = Integer.parseInt(unmarshalledData.getStringList().get(4));
+                facilityName = unmarshalledData.getStringList().get(0);
+                day = unmarshalledData.getIntList().get(0);
+                start = unmarshalledData.getIntList().get(1);
+                end = unmarshalledData.getIntList().get(2);
                 result = bookFacility(facilityName, day, start, end);
                 break;
             case "changeBooking": // Non Idempotent
-                confirmID = Integer.parseInt(unmarshalledData.getStringList().get(1));
-                offset = Integer.parseInt(unmarshalledData.getStringList().get(2));
+                confirmID = unmarshalledData.getStringList().get(0);
+                offset = unmarshalledData.getIntList().get(0);
                 result = changeBooking(confirmID, offset);
                 break;
             case "extendBooking": // Non Idempotent
-                confirmID = Integer.parseInt(unmarshalledData.getStringList().get(1));
-                offset = Integer.parseInt(unmarshalledData.getStringList().get(2));
+                confirmID = unmarshalledData.getStringList().get(0);
+                offset = unmarshalledData.getIntList().get(0);
                 result = extendBooking(confirmID, offset);
                 break;
             case "monitorFacility": // Non Idempotent
-                facilityName = unmarshalledData.getStringList().get(1);
-                address = unmarshalledData.getStringList().get(2);
-                interval = Integer.parseInt(unmarshalledData.getStringList().get(3));
-                port = Integer.parseInt(unmarshalledData.getStringList().get(4));
+                facilityName = unmarshalledData.getStringList().get(0);
+                address = unmarshalledData.getStringList().get(1);
+                interval = unmarshalledData.getIntList().get(0);
+                port = unmarshalledData.getIntList().get(1);
                 result = monitorFacility(facilityName, address, interval, port);
                 break;
             case "listFacilities": // Idempotent
@@ -64,12 +64,12 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
                 break;
             default: break;
         }
-        String[] stringArray = {"BookingSystemProxy", result};
+        String[] stringArray = {"BookingSystemProxy", methodName, result};
         int[] intArray = {1};
         return MarshalModule.marshal(stringArray, intArray);
     }
 
-    public String getFacilityAvailability (String facilityName, int d){
+    public String getFacilityAvailability (String facilityName, String d){
         return bs.getFacilityAvailability(facilityName, d);
     };
 
@@ -77,11 +77,11 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
         return bs.bookFacility(facilityName, d, s, e);
     };
 
-    public String changeBooking (int confirmID, int offset){
+    public String changeBooking (String confirmID, int offset){
         return bs.changeBooking ( confirmID,  offset);
     };
 
-    public String extendBooking (int confirmID, int offset){
+    public String extendBooking (String confirmID, int offset){
         return bs.extendBooking ( confirmID,  offset);
     };
 

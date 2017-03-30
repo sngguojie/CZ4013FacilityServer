@@ -2,6 +2,7 @@ package com.cz4013.server;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 /**
  * Created by melvynsng on 3/30/17.
@@ -15,10 +16,26 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
     public MonitorBroadcastProxy () {
     }
 
-    public void displayAvailability(String availability) {
-        String[] data = {"MonitorBroadcastSkeleton", "displayAvailability", availability};
-        byte[] marshalledBytes = marshal(data, null);
-        communicationModule.sendRequest(marshalledBytes);
+    public void displayAvailability(String facilityName) {
+        String availability = "";
+
+        Facility facility = Facility.facilityHashMap.get(facilityName);
+        availability += facility.getWeekAvailability();
+
+        for (Monitor m : facility.monitorList) {
+            if (m.expiry > System.currentTimeMillis()) {
+                availability = "Expired";
+            }
+            String[] data = {"MonitorBroadcastSkeleton", "displayAvailability", availability};
+            int[] intArr = {1};
+            byte[] marshalledBytes = marshal(data, intArr);
+
+            communicationModule.sendRequest(marshalledBytes, m.address, m.port);
+        }
+
+
+
+
     }
 
     public byte[] handleRequest (byte[] requestBody) {

@@ -9,11 +9,24 @@ import java.util.ArrayList;
  */
 public class BookingSystemImpl implements BookingSystem {
 
+    MonitorBroadcastProxy mbp;
+
     public BookingSystemImpl() {
         initialise();
     }
 
-    public String getFacilityAvailability (String facilityName, int d) {
+    public String getFacilityAvailability (String facilityName, String d) {
+        if (!Facility.facilityHashMap.containsKey(facilityName)) {
+            return "Error Get Unrecognised FacilityName " + facilityName;
+        }
+        String result = "";
+        String[] daysArray = d.split(" ");
+        for (String s : daysArray) {
+            result += getFacilityDayAvailability(facilityName, Integer.parseInt(s));
+        }
+        return result;
+    }
+    private String getFacilityDayAvailability (String facilityName, int d) {
         if (!Facility.facilityHashMap.containsKey(facilityName)) {
             return "Error Get Unrecognised FacilityName " + facilityName;
         }
@@ -58,14 +71,16 @@ public class BookingSystemImpl implements BookingSystem {
         bookings.add(temp);
         Confirmation confirmation = new Confirmation(temp);
         int confirmationID = confirmation.save();
+        mbp.displayAvailability(facilityName);
         return "Success Book ConfirmID " + Integer.toString(confirmationID);
     }
 
-    public String changeBooking (int confirmID, int offset) {
-        if (!Confirmation.confirmationHashMap.containsKey(confirmID)) {
-            return "Error Change ConfirmID " + Integer.toString(confirmID);
+    public String changeBooking (String confirmID, int offset) {
+        int confirmIDInt = Integer.parseInt(confirmID);
+        if (!Confirmation.confirmationHashMap.containsKey(confirmIDInt)) {
+            return "Error Change ConfirmID " + Integer.toString(confirmIDInt);
         }
-        Confirmation confirmation = Confirmation.confirmationHashMap.get(confirmID);
+        Confirmation confirmation = Confirmation.confirmationHashMap.get(confirmIDInt);
         Booking initial = confirmation.booking;
         Booking copy = new Booking(initial.start + offset, initial.end + offset, initial.day, initial.facility);
         if (!copy.isValid()) {
@@ -86,16 +101,19 @@ public class BookingSystemImpl implements BookingSystem {
             return "Error Change Conflict " + copy.toString() + " " + conflictedBooking.toString();
         }
         confirmation.booking = copy;
+        String successMessage = "Change Request for ConfirmID " + Integer.toString(confirmIDInt) + " from " + initial.toString() + " to " + copy.toString() + " is successful!";
         bookings.remove(initial);
         bookings.add(copy);
-        return "Success Change ConfirmID " + Integer.toString(confirmID) + " " + copy.toString();
+        mbp.displayAvailability(copy.facility.name);
+        return successMessage;
     }
 
-    public String extendBooking (int confirmID, int offset){
-        if (!Confirmation.confirmationHashMap.containsKey(confirmID)) {
-            return "Error Extend ConfirmID " + Integer.toString(confirmID);
+    public String extendBooking (String confirmID, int offset){
+        int confirmIDInt = Integer.parseInt(confirmID);
+        if (!Confirmation.confirmationHashMap.containsKey(confirmIDInt)) {
+            return "Error Extend ConfirmID " + Integer.toString(confirmIDInt);
         }
-        Confirmation confirmation = Confirmation.confirmationHashMap.get(confirmID);
+        Confirmation confirmation = Confirmation.confirmationHashMap.get(confirmIDInt);
         Booking initial = confirmation.booking;
         Booking copy = new Booking(initial.start, initial.end + offset, initial.day, initial.facility);
         if (!copy.isValid()) {
@@ -116,9 +134,11 @@ public class BookingSystemImpl implements BookingSystem {
             return "Error Extend Conflict " + copy.toString() + " " + conflictedBooking.toString();
         }
         confirmation.booking = copy;
+        String successMessage = "Extend Request for ConfirmID " + Integer.toString(confirmIDInt) + " from " + initial.toString() + " to " + copy.toString() + " is successful!";
         bookings.remove(initial);
         bookings.add(copy);
-        return "Success Extend ConfirmID " + Integer.toString(confirmID) + " " + copy.toString();
+        mbp.displayAvailability(copy.facility.name);
+        return successMessage;
     };
 
     public String monitorFacility (String facilityName, String address, int intervalMinutes, int port) {
@@ -139,30 +159,15 @@ public class BookingSystemImpl implements BookingSystem {
     }
 
     public String listFacilities () {
-        String result = "Success List";
+        String result = "The list of facilities are:\n";
         for (Facility f : Facility.facilityHashMap.values()) {
-            result += " " + f.name;
-            System.out.println(f.name);
+            result += f.name + "\n";
+//            System.out.println(f.name);
         }
         return result;
     }
 
-    public String getFacilityWeekAvailability (String facilityName) {
-        if (!Facility.facilityHashMap.containsKey(facilityName)) {
-            return "Error Unrecognised FacilityName " + facilityName;
-        }
-        Facility facility = Facility.facilityHashMap.get(facilityName);
-        String result = facility.name + "\n";
-        for (Booking.DAYS d : facility.bookings.keySet()) {
-            String dayString = getDayString(d);
-            result += dayString + " ";
-            for (Booking b : facility.bookings.get(d)) {
-                result += b.toString() + " ";
-            }
-            result += "\n";
-        }
-        return result;
-    }
+
 
     private void initialise () {
         Facility meetingRoom1 = new Facility("MeetingRoom1");
@@ -198,4 +203,9 @@ public class BookingSystemImpl implements BookingSystem {
             default: return null;
         }
     }
+
+    public void setMonitorBroadcastProxy (MonitorBroadcastProxy mbp) {
+        this.mbp = mbp;
+    }
+
 }
