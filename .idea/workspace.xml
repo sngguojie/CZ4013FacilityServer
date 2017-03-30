@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="eefd3f3d-2edd-47a6-addb-7933b41c835e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -72,11 +73,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BookingSystemSkeleton.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BookingSystemSkeleton.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1395">
-              <caret line="206" column="1" lean-forward="false" selection-start-line="206" selection-start-column="1" selection-end-line="206" selection-end-column="1" />
+            <state relative-caret-position="360">
+              <caret line="24" column="32" lean-forward="false" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getFacilityAvailability#0;class#BookingSystemSkeleton#0" expanded="false" />
@@ -111,11 +112,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommunicationModule.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CommunicationModule.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="45" column="41" lean-forward="false" selection-start-line="45" selection-start-column="41" selection-end-line="45" selection-end-column="41" />
+            <state relative-caret-position="198">
+              <caret line="146" column="88" lean-forward="false" selection-start-line="146" selection-start-column="88" selection-end-line="146" selection-end-column="88" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -126,8 +127,8 @@
       <file leaf-file-name="MarshalModule.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-960">
-              <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+            <state relative-caret-position="255">
+              <caret line="62" column="47" lean-forward="false" selection-start-line="62" selection-start-column="47" selection-end-line="62" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -155,6 +156,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>facilityHashMap</find>
+      <find>getremoteobject</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -176,11 +178,11 @@
         <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/Main.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcastProxy.java" />
-        <option value="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/Data.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/Binder.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java" />
+        <option value="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
       </list>
     </option>
   </component>
@@ -400,7 +402,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2815405" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2815405" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22265625" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
@@ -632,14 +634,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-960">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Data.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -674,23 +668,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1395">
-          <caret line="206" column="1" lean-forward="false" selection-start-line="206" selection-start-column="1" selection-end-line="206" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getFacilityAvailability#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#bookFacility#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#monitorFacility#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#unmarshal#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#isEmpty#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#marshal#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#addIntToByteArray#0;class#BookingSystemSkeleton#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Facility$DAYS.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -709,10 +686,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="45" column="41" lean-forward="false" selection-start-line="45" selection-start-column="41" selection-end-line="45" selection-end-column="41" />
+        <state relative-caret-position="198">
+          <caret line="146" column="88" lean-forward="false" selection-start-line="146" selection-start-column="88" selection-end-line="146" selection-end-column="88" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="62" column="47" lean-forward="false" selection-start-line="62" selection-start-column="47" selection-end-line="62" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="32" lean-forward="false" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getFacilityAvailability#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#bookFacility#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#monitorFacility#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#unmarshal#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#isEmpty#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#marshal#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#addIntToByteArray#0;class#BookingSystemSkeleton#0" expanded="false" />
           </folding>
         </state>
       </provider>

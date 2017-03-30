@@ -137,13 +137,14 @@ public class CommunicationModule extends Thread {
     }
 
     private RemoteObject getRemoteObject (byte[] payload) {
+        System.out.println(new String(payload));
         DATATYPE dataType = getDataType(Arrays.copyOfRange(payload, 0, 4));
         if (dataType != DATATYPE.STRING) {
             return null;
         }
         int stringLen = ByteBuffer.wrap(Arrays.copyOfRange(payload, 4, 8)).getInt();
-        stringLen += 4 - (stringLen % 4);
-        String objectRefName = Arrays.copyOfRange(payload, 8, 8 + stringLen).toString();
+//        stringLen += 4 - (stringLen % 4);
+        String objectRefName = new String(Arrays.copyOfRange(payload, 8, 8 + stringLen));
         return objectReferenceHashMap.get(objectRefName);
     }
 

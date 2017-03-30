@@ -60,6 +60,7 @@ public class MarshalModule {
     }
 
     public static Data unmarshal(byte[] byteArray){
+        System.out.println("Inside unmarshal");
         int startByte = 0;
         byte[] chunk = new byte[4];
         Data data = new Data();
@@ -69,9 +70,11 @@ public class MarshalModule {
         while(startByte < byteArray.length){
             System.arraycopy(byteArray, startByte, chunk, 0, chunk.length);
             startByte += BYTE_CHUNK_SIZE;
+            System.out.println("Before isEmpty");
             if (isEmpty(chunk)){
                 break;
             }
+            System.out.println("After isEmpty");
             ByteBuffer wrapped = ByteBuffer.wrap(chunk);
             try {
                 DATATYPE dataType = DATATYPE.values()[wrapped.getInt()];
