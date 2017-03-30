@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eefd3f3d-2edd-47a6-addb-7933b41c835e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cz4013/server/Data.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,7 +47,7 @@
       <file leaf-file-name="BookingSystemImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
+            <state relative-caret-position="114">
               <caret line="93" column="58" lean-forward="false" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
               <folding>
                 <element signature="method#getFacilityAvailability#0;class#BookingSystemImpl#0" expanded="false" />
@@ -72,11 +74,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BookingSystemSkeleton.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BookingSystemSkeleton.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1185">
-              <caret line="90" column="14" lean-forward="false" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="14" />
+            <state relative-caret-position="1395">
+              <caret line="206" column="1" lean-forward="false" selection-start-line="206" selection-start-column="1" selection-end-line="206" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getFacilityAvailability#0;class#BookingSystemSkeleton#0" expanded="false" />
@@ -86,7 +88,6 @@
                 <element signature="method#isEmpty#0;class#BookingSystemSkeleton#0" expanded="false" />
                 <element signature="method#marshal#0;class#BookingSystemSkeleton#0" expanded="false" />
                 <element signature="method#addIntToByteArray#0;class#BookingSystemSkeleton#0" expanded="false" />
-                <element signature="class#Data#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -104,11 +105,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MarshalModule.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MarshalModule.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
+            <state relative-caret-position="-960">
               <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Data.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Data.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="49" column="1" lean-forward="false" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -147,9 +158,10 @@
         <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/Main.java" />
-        <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcastProxy.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
+        <option value="$PROJECT_DIR$/src/com/cz4013/server/Data.java" />
+        <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" />
       </list>
     </option>
   </component>
@@ -201,28 +213,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CZ4013FacilityServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CZ4013FacilityServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MarshalModule.java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -515,7 +505,6 @@
             <element signature="method#isEmpty#0;class#BookingSystemSkeleton#0" expanded="false" />
             <element signature="method#marshal#0;class#BookingSystemSkeleton#0" expanded="false" />
             <element signature="method#addIntToByteArray#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="class#Data#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -601,55 +590,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="36" lean-forward="false" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="93" column="58" lean-forward="false" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
-          <folding>
-            <element signature="method#getFacilityAvailability#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#bookFacility#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#monitorFacility#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#listFacilities#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#getFacilityWeekAvailability#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#initialise#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#getDayString#0;class#BookingSystemImpl#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="55" lean-forward="false" selection-start-line="10" selection-start-column="55" selection-end-line="10" selection-end-column="55" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="90" column="14" lean-forward="false" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getFacilityAvailability#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#bookFacility#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#monitorFacility#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#unmarshal#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#isEmpty#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#marshal#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="method#addIntToByteArray#0;class#BookingSystemSkeleton#0" expanded="false" />
-            <element signature="class#Data#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -677,9 +622,60 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
+        <state relative-caret-position="-960">
           <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Data.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="49" column="1" lean-forward="false" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="36" lean-forward="false" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="93" column="58" lean-forward="false" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
+          <folding>
+            <element signature="method#getFacilityAvailability#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#bookFacility#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#monitorFacility#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#listFacilities#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#getFacilityWeekAvailability#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#initialise#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#getDayString#0;class#BookingSystemImpl#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1395">
+          <caret line="206" column="1" lean-forward="false" selection-start-line="206" selection-start-column="1" selection-end-line="206" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getFacilityAvailability#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#bookFacility#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#monitorFacility#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#unmarshal#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#isEmpty#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#marshal#0;class#BookingSystemSkeleton#0" expanded="false" />
+            <element signature="method#addIntToByteArray#0;class#BookingSystemSkeleton#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

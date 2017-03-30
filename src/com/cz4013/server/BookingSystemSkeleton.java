@@ -205,30 +205,3 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
     }
 
 }
-
-
-class Data {
-    private ArrayList<String> stringList;
-    private ArrayList<Integer> intList;
-
-    public Data(){
-        this.stringList = new ArrayList<String>();
-        this.intList = new ArrayList<Integer>();
-    }
-
-    public void addString(String str){
-        this.stringList.add(str);
-    }
-
-    public void addInt(int i){
-        this.intList.add(i);
-    }
-
-    public ArrayList<String> getStringList(){
-        return this.stringList;
-    }
-
-    public ArrayList<Integer> getIntList(){
-        return this.intList;
-    }
-}
