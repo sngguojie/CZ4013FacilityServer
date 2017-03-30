@@ -5,7 +5,7 @@ package com.cz4013.server;
  */
 public class Booking {
 
-    public enum DAYS {MON, TUE, WED, THU, FRI, SAT, SUN};
+    public static enum DAYS {MON, TUE, WED, THU, FRI, SAT, SUN};
     public int start;
     public int end;
     public DAYS day;

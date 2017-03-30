@@ -1,6 +1,7 @@
 package com.cz4013.server;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
@@ -90,16 +91,21 @@ public class BookingSystem implements BookingSystemInterface {
         return "Success Change ConfirmID " + Integer.toString(confirmID) + " " + copy.toString();
     }
 
-    public String monitorFacility (String facilityName, int intervalMinutes, InetAddress address, int port) {
+    public String monitorFacility (String facilityName, String address, int intervalMinutes, int port) {
         if (!Facility.facilityHashMap.containsKey(facilityName)) {
             return "Error Monitor FacilityName " + facilityName;
         }
         Facility facility = Facility.facilityHashMap.get(facilityName);
         long now = System.currentTimeMillis();
         long expiry = now + ((long) intervalMinutes) * 60000l;
-        Monitor monitor = new Monitor(address, port, expiry);
-        facility.monitorList.add(monitor);
-        return "Success Monitor";
+        try {
+            InetAddress inetAddress = InetAddress.getByName(address);
+            Monitor monitor = new Monitor(inetAddress, port, expiry);
+            facility.monitorList.add(monitor);
+            return "Success Monitor";
+        } catch (UnknownHostException uhe) {
+            return "Error Unknown Host " + address;
+        }
     }
 
     public String listFacilities () {

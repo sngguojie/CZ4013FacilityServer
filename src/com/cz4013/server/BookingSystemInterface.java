@@ -1,6 +1,7 @@
 package com.cz4013.server;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public interface BookingSystemInterface {
     public String getFacilityAvailability (String facilityName, int d);
@@ -9,7 +10,7 @@ public interface BookingSystemInterface {
 
     public String changeBooking (int confirmID, int offset);
 
-    public String monitorFacility (String facilityName, int intervalMinutes, InetAddress address, int port);
+    public String monitorFacility (String facilityName, String address, int intervalMinutes, int port);
 
     public String listFacilities ();
 

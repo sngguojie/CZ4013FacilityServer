@@ -1,6 +1,7 @@
 package com.cz4013.server;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by melvynsng on 3/30/17.
@@ -13,13 +14,14 @@ public class BookingSystemSkeleton implements RemoteObject {
         this.bs = new BookingSystem();
     }
 
-    public byte[] handleRequest (byte[] requestBody, InetAddress address, int port) {
+    public byte[] handleRequest (byte[] requestBody) {
         String requestString = new String(requestBody);
         String[] requestStringArray = requestString.split(" ");
         String methodName = requestStringArray[0];
-        String facilityName;
+
         String result = "Error Unrecognised " + requestString;
-        int day, start, end, confirmID, offset, interval;
+        String facilityName, address;
+        int day, start, end, confirmID, offset, interval, port;
         switch (methodName) {
             case "Get": // Idempotent
                 facilityName = requestStringArray[1];
@@ -40,8 +42,10 @@ public class BookingSystemSkeleton implements RemoteObject {
                 break;
             case "Monitor": // Non Idempotent
                 facilityName = requestStringArray[1];
-                interval = Integer.parseInt(requestStringArray[2]);
-                result = bs.monitorFacility(facilityName, interval, address, port);
+                address = requestStringArray[2];
+                interval = Integer.parseInt(requestStringArray[3]);
+                port = Integer.parseInt(requestStringArray[4]);
+                result = bs.monitorFacility(facilityName, address, interval, port);
                 break;
             case "List": // Idempotent
                 result = bs.listFacilities();
