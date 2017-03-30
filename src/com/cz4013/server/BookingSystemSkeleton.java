@@ -18,7 +18,7 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
     public BookingSystemSkeleton (CommunicationModule communicationModule) {
         this.bs = new BookingSystemImpl();
         this.communicationModule = communicationModule;
-        this.communicationModule.objectReferenceHashMap.put("BookingSystemSkeleton", this);
+        this.communicationModule.addObjectReference("BookingSystemSkeleton", this);
     }
 
     public byte[] handleRequest (byte[] requestBody) {

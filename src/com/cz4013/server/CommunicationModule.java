@@ -29,9 +29,6 @@ public class CommunicationModule extends Thread {
         String[] localHostString = InetAddress.getLocalHost().toString().split("/");
         System.out.println(localHostString[localHostString.length - 1]);
         serverAddress = InetAddress.getByName(localHostString[localHostString.length - 1]);
-
-        objectReferenceHashMap.put("MonitorBroadcastProxy", new MonitorBroadcastProxy(this));
-        objectReferenceHashMap.put("BookingSystemSkeleton", new BookingSystemSkeleton(this));
     }
 
     public void run () {
@@ -202,6 +199,14 @@ public class CommunicationModule extends Thread {
         return i;
     }
 
+    public void sendReponse (byte[] data) {
+
+    }
+
+    public void sendReponse (byte[] data, InetAddress address, int port) {
+
+    }
+
     public void sendPayload (byte[] data) throws IOException {
         sendPayload(data, serverAddress, serverPort);
     }
@@ -228,6 +233,10 @@ public class CommunicationModule extends Thread {
         } catch (SocketTimeoutException ste) {
             sendPacketOut(payload, address, port);
         }
+    }
+
+    public void addObjectReference(String name, RemoteObject objRef){
+        this.objectReferenceHashMap.put(name, objRef);
     }
 
 }
