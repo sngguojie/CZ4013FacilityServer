@@ -40,6 +40,7 @@ public class CommunicationModule extends Thread {
                 socket.receive(packet);
                 InetAddress address = packet.getAddress();
                 int port = packet.getPort();
+                System.out.println(port);
                 handlePacketIn(packet.getData(), address, port);
             } catch (IOException e) {
                 e.printStackTrace();
