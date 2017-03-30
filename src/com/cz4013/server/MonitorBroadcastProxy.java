@@ -23,7 +23,7 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
         availability += facility.getWeekAvailability();
 
         for (Monitor m : facility.monitorList) {
-            if (m.expiry > System.currentTimeMillis()) {
+            if (m.expiry < System.currentTimeMillis()) {
                 availability = "Expired";
             }
             String[] data = {"MonitorBroadcastSkeleton", "displayAvailability", availability};
@@ -31,6 +31,9 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
             byte[] marshalledBytes = marshal(data, intArr);
 
             communicationModule.sendRequest(marshalledBytes, m.address, m.port);
+            if (availability.equals("Expired")) {
+                facility.monitorList.remove(m);
+            }
         }
 
 

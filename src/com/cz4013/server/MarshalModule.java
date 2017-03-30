@@ -57,7 +57,7 @@ public class MarshalModule {
             startByte = incrementByteIndex(startByte);
         }
 
-        System.out.println(new String(outBuf));
+//        System.out.println(new String(outBuf));
 
         return outBuf;
     }
@@ -73,11 +73,11 @@ public class MarshalModule {
         while(startByte < byteArray.length){
             System.arraycopy(byteArray, startByte, chunk, 0, chunk.length);
             startByte += BYTE_CHUNK_SIZE;
-            System.out.println("Before isEmpty");
+//            System.out.println("Before isEmpty");
             if (isEmpty(chunk)){
                 break;
             }
-            System.out.println("After isEmpty");
+//            System.out.println("After isEmpty");
             ByteBuffer wrapped = ByteBuffer.wrap(chunk);
             try {
                 DATATYPE dataType = DATATYPE.values()[wrapped.getInt()-1];
