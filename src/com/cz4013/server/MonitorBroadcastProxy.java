@@ -14,7 +14,7 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
 
     public MonitorBroadcastProxy (CommunicationModule communicationModule) {
         this.communicationModule = communicationModule;
-        this.communicationModule.objectReferenceHashMap.put("MonitorBroadcastProxy", this);
+        this.communicationModule.addObjectReference("MonitorBroadcastProxy", this);
     }
 
     public void displayAvailability(String availability) {

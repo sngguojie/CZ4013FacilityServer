@@ -68,6 +68,7 @@ public class MarshalModule {
         String methodId = null;
 
         while(startByte < byteArray.length){
+            System.out.println("while");
             System.arraycopy(byteArray, startByte, chunk, 0, chunk.length);
             startByte += BYTE_CHUNK_SIZE;
             System.out.println("Before isEmpty");
@@ -116,12 +117,14 @@ public class MarshalModule {
     }
 
     public static boolean isEmpty(byte[] byteArray){
+        System.out.println("isEmpty");
         boolean empty = true;
         for (byte b : byteArray){
             if (b != 0){
                 empty = false;
             }
         }
+        System.out.println(empty);
         return empty;
     }
 
