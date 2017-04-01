@@ -1,20 +1,20 @@
 package com.cz4013.server;
 
+
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 
 /**
  * Created by danielseetoh on 3/31/17.
  */
 public class MarshalModule {
-
     static final int MAX_BYTE_SIZE = 1020;
     static final int BYTE_CHUNK_SIZE = 4;
     private enum DATATYPE{STRING, INTEGER};
 
     public static byte[] marshal(String[] strings, int[] ints){
         // MessageType 2 bytes, requestId 2 bytes, type of object ref (string 0) 4 bytes, Length of object ref 4 bytes
-        // Object ref 4 bytes, type of string (0) 4 bytes, length of string 4 bytes, string chunks of 4 bytes
+        // Object ref 4 bytes, type of method id (string 0) 4 bytes, length of method id 4 bytes, method id 4 bytes,
+        // type of string (0) 4 bytes, length of string 4 bytes, string chunks of 4 bytes
         // type of int (1) 4 bytes, int chunks of 4 bytes
 
         // java is big-endian by default
@@ -25,9 +25,7 @@ public class MarshalModule {
         // leave space for messageType and requestId to be filled in by communication module
         int startByte = 0;
         int strType = 1;
-        int strTypePadding = 3;
         int intType = 2;
-        int intTypePadding = 3;
 
         for (String str : strings){
             int strLength = str.length();
@@ -41,7 +39,7 @@ public class MarshalModule {
             for (int i = 0; i < ch.length; i++){
                 outBuf[startByte] = (byte)ch[i];
                 startByte++;
-                if (i == ch.length-1) {
+                if (i == ch.length-1){
                     startByte--;
                 }
             }
@@ -56,9 +54,6 @@ public class MarshalModule {
             outBuf = addIntToByteArray(outBuf, i, startByte);
             startByte = incrementByteIndex(startByte);
         }
-
-//        System.out.println(new String(outBuf));
-
         return outBuf;
     }
 
@@ -69,15 +64,12 @@ public class MarshalModule {
         Data data = new Data();
         String objectReference = null;
         String methodId = null;
-
         while(startByte < byteArray.length){
             System.arraycopy(byteArray, startByte, chunk, 0, chunk.length);
             startByte += BYTE_CHUNK_SIZE;
-//            System.out.println("Before isEmpty");
             if (isEmpty(chunk)){
                 break;
             }
-//            System.out.println("After isEmpty");
             ByteBuffer wrapped = ByteBuffer.wrap(chunk);
             try {
                 DATATYPE dataType = DATATYPE.values()[wrapped.getInt()-1];
@@ -102,7 +94,6 @@ public class MarshalModule {
                     } else {
                         data.addString(str);
                     }
-
                 } else if (dataType == DATATYPE.INTEGER){
                     System.arraycopy(byteArray, startByte, chunk, 0, chunk.length);
                     startByte += BYTE_CHUNK_SIZE;

@@ -20,11 +20,8 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
     }
 
     public byte[] handleRequest (byte[] requestBody) {
-        System.out.println(new String(requestBody));
         Data unmarshalledData = MarshalModule.unmarshal(requestBody);
-        System.out.println(unmarshalledData.toString());
         String methodName = unmarshalledData.getMethodId();
-//        System.out.println(methodName);
 
         String result = "Error Unrecognised Method " + methodName;
         String facilityName, address, confirmID, days;

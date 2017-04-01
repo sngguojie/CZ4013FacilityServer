@@ -6,8 +6,16 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 	// write your code here
+        for (String a : args) {
+            System.out.println(a);
+        }
+        boolean saveHistory = true;
+        if (args.length > 0 && args[0].contains("ATLEASTONE")) {
+            saveHistory = false;
+        }
+
         Binder b = new Binder();
-        CommunicationModule communicationModule = new CommunicationModule();
+        CommunicationModule communicationModule = new CommunicationModule(saveHistory);
         BookingSystemSkeleton bss = new BookingSystemSkeleton();
         MonitorBroadcastProxy mbp = new MonitorBroadcastProxy();
         BookingSystemImpl bsi = new BookingSystemImpl();

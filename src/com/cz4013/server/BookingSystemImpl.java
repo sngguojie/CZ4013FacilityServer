@@ -162,7 +162,6 @@ public class BookingSystemImpl implements BookingSystem {
         String result = "The list of facilities are:\n";
         for (Facility f : Facility.facilityHashMap.values()) {
             result += f.name + "\n";
-//            System.out.println(f.name);
         }
         return result;
     }

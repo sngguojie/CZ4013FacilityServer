@@ -17,23 +17,24 @@ public class CommunicationModule extends Thread {
     protected HashMap<Integer, byte[]> requestHistory = new HashMap<Integer,byte[]>();
     private Binder binder;
     private final int MAX_BYTE_SIZE = 1024;
+    private boolean saveHistory;
 
-    public CommunicationModule() throws IOException {
+    public CommunicationModule(boolean saveHistory) throws IOException {
         // PORT 2222 is default for NTU computers
-        this("CommunicationModule", 2222);
+        this("CommunicationModule", 2222, saveHistory);
     }
 
-    public CommunicationModule(String name, int PORT) throws IOException {
+    public CommunicationModule(String name, int PORT, boolean saveHistory) throws IOException {
         super(name);
         socket = new DatagramSocket(new InetSocketAddress(PORT));
 //        serverPort = PORT;
         String[] localHostString = InetAddress.getLocalHost().toString().split("/");
         System.out.println(localHostString[localHostString.length - 1]);
         serverAddress = InetAddress.getByName(localHostString[localHostString.length - 1]);
+        this.saveHistory = saveHistory;
     }
 
-    public void run () {
-        System.out.println("CommunicationModule Running");
+    public void waitForPacket () {
         while (this.isRunning) {
             try {
                 byte[] buf = new byte[MAX_BYTE_SIZE];
@@ -47,6 +48,10 @@ public class CommunicationModule extends Thread {
                 isRunning = false;
             }
         }
+    }
+    public void run () {
+        System.out.println("CommunicationModule Running");
+        waitForPacket();
         socket.close();
     }
 
@@ -123,29 +128,8 @@ public class CommunicationModule extends Thread {
         return c;
     }
 
-    private DATATYPE getDataType (byte[] word) {
-        if (word[0] == (byte)0x00) {
-            return DATATYPE.STRING;
-        }
-        if (word[0] == (byte)0x01) {
-            return DATATYPE.INT;
-        }
-        return null;
-    }
-
     private RemoteObject getRemoteObject (byte[] payload) {
-
-//        System.out.println(new String(payload));
-        DATATYPE dataType = getDataType(Arrays.copyOfRange(payload, 0, 4));
-        if (dataType != DATATYPE.STRING) {
-            return null;
-        }
-        int stringLen = ByteBuffer.wrap(Arrays.copyOfRange(payload, 4, 8)).getInt();
-//        stringLen += 4 - (stringLen % 4);
-        String objectRefName = new String(Arrays.copyOfRange(payload, 8, 8 + stringLen));
-
-//        System.out.println(objectRefName);
-//        System.out.println(binder.getObjectReference(objectRefName).toString());
+        String objectRefName = MarshalModule.unmarshal(payload).getObjectReference();
         return binder.getObjectReference(objectRefName);
     }
 
@@ -185,14 +169,14 @@ public class CommunicationModule extends Thread {
                     break;
                 }
                 messageHistory.put(inHead, inBody);
-                getRemoteObjectResponse(inBody);
+//                getRemoteObjectResponse(inBody);
                 break;
             case NON_IDEMPOTENT_RESPONSE:
                 if (messageHistory.containsKey(inHead)) {
                     break;
                 }
                 messageHistory.put(inHead, inBody);
-                getRemoteObjectResponse(inBody);
+//                getRemoteObjectResponse(inBody);
                 break;
             default:
                 break;
@@ -201,9 +185,8 @@ public class CommunicationModule extends Thread {
     }
 
     private byte[] getRemoteObjectResponse (byte[] requestBody) {
-//        System.out.println(MarshalModule.unmarshal(requestBody).toString());
         RemoteObject remoteObject = getRemoteObject(requestBody);
-        return remoteObject.handleRequest(Arrays.copyOfRange(requestBody,0,requestBody.length));
+        return remoteObject.handleRequest(requestBody);
     }
 
     private int getNewRequestId () {
@@ -224,7 +207,6 @@ public class CommunicationModule extends Thread {
     }
 
     public byte[] sendRequest(byte[] data, InetAddress address, int port) {
-        System.out.println("sendRequest");
         try {
             byte[] payload = makePayload(data);
             return sendRequestPacketOut(payload, address, port);
@@ -265,7 +247,6 @@ public class CommunicationModule extends Thread {
         if (payload == null) {
             return null;
         }
-        System.out.println("sendRequestPacketOut");
         boolean resend = true;
         byte[] requestIdBytesOut = new byte[2];
         System.arraycopy(payload, 2, requestIdBytesOut, 0, 2);
@@ -274,25 +255,11 @@ public class CommunicationModule extends Thread {
         do {
             try {
                 byte[] buf = payload;
-
-                //Debug
-//                System.out.println(new String(buf));
-//                byte[] temp = Arrays.copyOfRange(buf,4,buf.length-4);
-//                System.out.println(new String(temp));
-//                System.out.println(MarshalModule.unmarshal(temp).toString());
-                //endDebug
-
                 DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
-//                System.out.println("b4socket.setSoTimeout(5000);");
-//                socket.setSoTimeout(5000);
-//                System.out.println("socket.setSoTimeout(5000);");
                 socket.send(packet);
-
                 byte[] bufIn = new byte[MAX_BYTE_SIZE];
                 packet = new DatagramPacket(bufIn, bufIn.length);
-//                System.out.println("b4socket.receive(packet)");
                 socket.receive(packet);
-//                System.out.println("socket.receive(packet)");
                 InetAddress addressIn = packet.getAddress();
                 int portIn = packet.getPort();
                 byte[] data = packet.getData();
@@ -322,6 +289,10 @@ public class CommunicationModule extends Thread {
 
     public void setBinder(Binder binder){
         this.binder = binder;
+    }
+
+    public void setWaitingForPacket(boolean wait){
+        this.isRunning = wait;
     }
 
 }
