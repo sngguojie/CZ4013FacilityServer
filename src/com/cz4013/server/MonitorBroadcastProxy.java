@@ -30,7 +30,7 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
             int[] intArr = {1};
             byte[] marshalledBytes = MarshalModule.marshal(data, intArr);
 
-            communicationModule.sendRequest(marshalledBytes, m.address, m.port);
+            communicationModule.sendRequest(true,marshalledBytes, m.address, m.port);
             if (availability.equals("Expired")) {
                 facility.monitorList.remove(m);
             }

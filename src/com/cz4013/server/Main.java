@@ -20,6 +20,8 @@ public class Main {
         MonitorBroadcastProxy mbp = new MonitorBroadcastProxy();
         BookingSystemImpl bsi = new BookingSystemImpl();
 
+        communicationModule.setPrintMessageHead(true);
+        communicationModule.setLossRate(0.5f);
         communicationModule.setBinder(b);
         mbp.setCommunicationModule(communicationModule);
         bss.setCommunicationModule(communicationModule);

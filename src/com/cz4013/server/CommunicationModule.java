@@ -5,6 +5,7 @@ import java.net.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 public class CommunicationModule extends Thread {
     protected boolean isRunning = true;
@@ -15,9 +16,13 @@ public class CommunicationModule extends Thread {
     protected InetAddress serverAddress;
     protected int serverPort;
     protected HashMap<Integer, byte[]> requestHistory = new HashMap<Integer,byte[]>();
+    protected HashMap<Integer, Boolean> receivedResponse = new HashMap<Integer,Boolean>();
+
     private Binder binder;
     private final int MAX_BYTE_SIZE = 1024;
     private boolean saveHistory;
+    private boolean printMessageHeadOn = false;
+    private float lossRate;
 
     public CommunicationModule(boolean saveHistory) throws IOException {
         // PORT 2222 is default for NTU computers
@@ -35,11 +40,16 @@ public class CommunicationModule extends Thread {
     }
 
     public void waitForPacket () {
+        Random random = new Random();
         while (this.isRunning) {
             try {
                 byte[] buf = new byte[MAX_BYTE_SIZE];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
+                if (random.nextFloat() <= this.lossRate) {
+                    continue;
+                }
+                printMessageHead(packet,true);
                 InetAddress address = packet.getAddress();
                 int port = packet.getPort();
                 handlePacketIn(packet.getData(), address, port);
@@ -49,6 +59,12 @@ public class CommunicationModule extends Thread {
             }
         }
     }
+
+    public void setLossRate (float lossRate) {
+        this.lossRate = lossRate;
+    }
+
+
     public void run () {
         System.out.println("CommunicationModule Running");
         waitForPacket();
@@ -156,27 +172,25 @@ public class CommunicationModule extends Thread {
                 if (messageHistory.containsKey(inHead)) {
                     out = messageHistory.get(inHead);
                     sendReponsePacketOut(out, address, port);
+                    System.out.println("get message from messageHistory");
                     break;
                 }
                 outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
                 outBody = getRemoteObjectResponse(inBody);
                 out = combineByteArrays(outHead, outBody);
                 messageHistory.put(inHead,out);
+                System.out.println("store message in messageHistory");
                 sendReponsePacketOut(out, address, port);
                 break;
             case IDEMPOTENT_RESPONSE:
-                if (messageHistory.containsKey(inHead)) {
-                    break;
+                if (receivedResponse.containsKey(getRequestId(inHead))) {
+                    receivedResponse.put(getRequestId(inHead), true);
                 }
-                messageHistory.put(inHead, inBody);
-//                getRemoteObjectResponse(inBody);
                 break;
             case NON_IDEMPOTENT_RESPONSE:
-                if (messageHistory.containsKey(inHead)) {
-                    break;
+                if (receivedResponse.containsKey(getRequestId(inHead))) {
+                    receivedResponse.put(getRequestId(inHead), true);
                 }
-                messageHistory.put(inHead, inBody);
-//                getRemoteObjectResponse(inBody);
                 break;
             default:
                 break;
@@ -194,21 +208,24 @@ public class CommunicationModule extends Thread {
         while (requestHistory.containsKey(i)) {
             i++;
         }
+        if (i > 255) {
+            requestHistory.clear();
+            i = 0;
+        }
         return i;
     }
 
-
-    public byte[] sendRequest(byte[] data) {
-        return sendRequest(data, serverAddress, serverPort);
+    public byte[] sendRequest(boolean isIdempotent, byte[] data) {
+        return sendRequest(isIdempotent, data, serverAddress, serverPort);
     }
 
-    public void sendResponse(byte[] data) {
-        sendResponse(data, serverAddress, serverPort);
+    public void sendResponse(boolean isIdempotent, byte[] data) {
+        sendResponse(isIdempotent, data, serverAddress, serverPort);
     }
 
-    public byte[] sendRequest(byte[] data, InetAddress address, int port) {
+    public byte[] sendRequest(boolean isIdempotent, byte[] data, InetAddress address, int port) {
         try {
-            byte[] payload = makePayload(data);
+            byte[] payload = makePayload(isIdempotent, true, data);
             return sendRequestPacketOut(payload, address, port);
         } catch (IOException e) {
             e.printStackTrace();
@@ -216,18 +233,23 @@ public class CommunicationModule extends Thread {
         return null;
     }
 
-    public void sendResponse(byte[] data, InetAddress address, int port) {
+    public void sendResponse(boolean isIdempotent, byte[] data, InetAddress address, int port) {
         try {
-            byte[] payload = makePayload(data);
+            byte[] payload = makePayload(isIdempotent, false, data);
             sendReponsePacketOut(payload, address, port);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private byte[] makePayload (byte[] data) throws IOException {
+    private byte[] makePayload (boolean isIdempotent, boolean isRequest, byte[] data) throws IOException {
         int requestIdInt = getNewRequestId();
-        byte[] outHead = getResponseHead(MSGTYPE.IDEMPOTENT_REQUEST, requestIdInt);
+        MSGTYPE messageType;
+        if (isRequest)
+            messageType = isIdempotent ? MSGTYPE.IDEMPOTENT_REQUEST : MSGTYPE.NON_IDEMPOTENT_REQUEST;
+        else
+            messageType = isIdempotent ? MSGTYPE.IDEMPOTENT_RESPONSE : MSGTYPE.NON_IDEMPOTENT_RESPONSE;
+        byte[] outHead = getResponseHead(messageType, requestIdInt);
         byte[] out = combineByteArrays(outHead, data);
         requestHistory.put(requestIdInt,out);
         return out;
@@ -240,6 +262,7 @@ public class CommunicationModule extends Thread {
         // send request
         byte[] buf = payload;
         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+        printMessageHead(packet,false);
         socket.send(packet);
     }
 
@@ -256,23 +279,21 @@ public class CommunicationModule extends Thread {
             try {
                 byte[] buf = payload;
                 DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
+                printMessageHead(packet,false);
                 socket.send(packet);
+                receivedResponse.put(requestIdOut, false);
                 byte[] bufIn = new byte[MAX_BYTE_SIZE];
                 packet = new DatagramPacket(bufIn, bufIn.length);
                 socket.receive(packet);
+
+                printMessageHead(packet,true);
                 InetAddress addressIn = packet.getAddress();
                 int portIn = packet.getPort();
                 byte[] data = packet.getData();
-                byte messageTypeByte = data[0];
-                byte idempotentTypeByte = data[1];
-                byte[] requestIdBytesIn = new byte[2];
-                System.arraycopy(data, 2, requestIdBytesIn, 0, 2);
-                int requestIdIn = getBytesAsHalfWord(requestIdBytesIn);
-                MSGTYPE messageType = getMessageType(messageTypeByte, idempotentTypeByte);
-                boolean isResponse = (messageType == MSGTYPE.IDEMPOTENT_RESPONSE || messageType == MSGTYPE.NON_IDEMPOTENT_RESPONSE);
-                if (isResponse && requestIdIn == requestIdOut) {
+                if (isResponse(data) && getRequestId(data) == requestIdOut) {
+                    receivedResponse.put(requestIdOut, true);
                     byte[] inBody = Arrays.copyOfRange(data, 4, payload.length);
-                    return  inBody;
+                    return inBody;
                 } else {
                     handlePacketIn(data, addressIn, portIn);
                 }
@@ -295,4 +316,47 @@ public class CommunicationModule extends Thread {
         this.isRunning = wait;
     }
 
+    private MSGTYPE getMessageType (byte[] payload) {
+        return getMessageType(payload[0], payload[1]);
+    }
+
+    private boolean isResponse(byte[] payload) {
+        MSGTYPE messageType = getMessageType(payload[0], payload[1]);
+        return (messageType == MSGTYPE.NON_IDEMPOTENT_RESPONSE || messageType == MSGTYPE.IDEMPOTENT_RESPONSE);
+    }
+
+    private int getRequestId (byte[] payload) {
+        return getBytesAsHalfWord(Arrays.copyOfRange(payload, 2, 4));
+    }
+
+    private void printMessageHead (DatagramPacket packet, boolean isIncoming) {
+        if (this.printMessageHeadOn) {
+            String arrow = isIncoming ? " IN  " : " OUT ";
+            System.out.println(arrow + messageHeadString(packet));
+        }
+    }
+
+    public void setPrintMessageHead (boolean on) {
+        this.printMessageHeadOn = on;
+    }
+
+    public void printMessageHistory (DatagramPacket packet, boolean isExecuted) {
+        if (this.printMessageHeadOn) {
+            String retrieve = isExecuted ? " STR_MSG   " : " RTRV_MSG ";
+            System.out.println(retrieve + messageHeadString(packet));
+        }
+    }
+
+    private String messageHeadString (DatagramPacket packet) {
+        String ipAddress = packet.getAddress().toString();
+        int port = packet.getPort();
+        byte[] payload = packet.getData();
+        MSGTYPE messageType = getMessageType(payload);
+        int requestId = getRequestId(payload);
+        return "t: " + (System.currentTimeMillis() % 600000l) + " " + messageType.toString() + " " + ipAddress + ":" + port +" requestID {" + requestId + "} ";
+    }
+
+    public boolean gotResponse(int requestId) {
+        return receivedResponse.containsKey(requestId) && receivedResponse.get(requestId);
+    }
 }
