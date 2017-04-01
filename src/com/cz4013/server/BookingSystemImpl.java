@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class BookingSystemImpl implements BookingSystem {
 
-    MonitorBroadcastProxy mbp;
+    MonitorCallbackProxy mbp;
     private int objectID;
     public static int BSobjectID = 0;
 
@@ -207,7 +207,7 @@ public class BookingSystemImpl implements BookingSystem {
         }
     }
 
-    public void setMonitorBroadcastProxy (MonitorBroadcastProxy mbp) {
+    public void setMonitorBroadcastProxy (MonitorCallbackProxy mbp) {
         this.mbp = mbp;
     }
 

@@ -11,6 +11,7 @@ public class CommunicationModule extends Thread {
     protected boolean isRunning = true;
     protected DatagramSocket socket = null;
     protected HashMap<byte[], byte[]> messageHistory = new HashMap<byte[], byte[]>();
+    protected HashMap<byte[], Boolean> receivedRequest = new HashMap<byte[], Boolean>();
     protected enum MSGTYPE {IDEMPOTENT_REQUEST, NON_IDEMPOTENT_REQUEST, IDEMPOTENT_RESPONSE, NON_IDEMPOTENT_RESPONSE};
     protected enum DATATYPE {STRING, INT};
     protected InetAddress serverAddress;
@@ -163,18 +164,39 @@ public class CommunicationModule extends Thread {
 
         switch (messageType) {
             case IDEMPOTENT_REQUEST:
-                outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
-                outBody = getRemoteObjectResponse(inBody);
-                out = combineByteArrays(outHead, outBody);
-                sendReponsePacketOut(out, address, port);
-                break;
-            case NON_IDEMPOTENT_REQUEST:
-                if (messageHistory.containsKey(inHead)) {
+                System.out.println("this.atLeastOnce" + this.atLeastOne);
+                System.out.println("messageHistory.containsKey(inHead)" + messageHistory.containsKey(inHead));
+                if (!this.atLeastOne && messageHistory.containsKey(inHead)) {
                     out = messageHistory.get(inHead);
                     sendReponsePacketOut(out, address, port);
                     System.out.println("get message from messageHistory");
                     break;
                 }
+                if (!this.atLeastOne && receivedRequest.containsKey(inHead)) {
+                    break;
+                }
+                receivedRequest.put(inHead, true);
+                outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
+                outBody = getRemoteObjectResponse(inBody);
+                out = combineByteArrays(outHead, outBody);
+                messageHistory.put(inHead,out);
+                System.out.println("store message in messageHistory");
+                sendReponsePacketOut(out, address, port);
+                break;
+            case NON_IDEMPOTENT_REQUEST:
+                System.out.println("this.atLeastOnce" + this.atLeastOne);
+                System.out.println("messageHistory.containsKey(inHead)" + messageHistory.containsKey(inHead));
+                if (!this.atLeastOne && messageHistory.containsKey(inHead)) {
+                    out = messageHistory.get(inHead);
+                    sendReponsePacketOut(out, address, port);
+                    System.out.println("get message from messageHistory");
+                    break;
+                }
+                if (!this.atLeastOne && receivedRequest.containsKey(inHead)) {
+                    break;
+                }
+                receivedRequest.put(inHead, true);
+
                 outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
                 outBody = getRemoteObjectResponse(inBody);
                 out = combineByteArrays(outHead, outBody);
@@ -208,8 +230,7 @@ public class CommunicationModule extends Thread {
         while (requestHistory.containsKey(i)) {
             i++;
         }
-        if (i > 255) {
-            requestHistory.clear();
+        if (i > Short.MAX_VALUE) {
             i = 0;
         }
         return i;
@@ -283,8 +304,8 @@ public class CommunicationModule extends Thread {
                 byte[] buf = payload;
                 DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
                 printMessageHead(packet,false);
-                socket.send(packet);
                 receivedResponse.put(requestIdOut, false);
+                new TimerThread(this, socket, packet, requestIdOut, 500l).start();
                 byte[] bufIn = new byte[MAX_BYTE_SIZE];
                 packet = new DatagramPacket(bufIn, bufIn.length);
                 socket.receive(packet);

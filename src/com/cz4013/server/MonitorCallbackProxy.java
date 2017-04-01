@@ -7,13 +7,11 @@ import java.util.ArrayList;
 /**
  * Created by melvynsng on 3/30/17.
  */
-public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
+public class MonitorCallbackProxy implements MonitorBroadcast, RemoteObject {
 
-    final int MAX_BYTE_SIZE = 1024;
-    final int BYTE_CHUNK_SIZE = 4;
     CommunicationModule communicationModule;
 
-    public MonitorBroadcastProxy () {
+    public MonitorCallbackProxy() {
     }
 
     public void displayAvailability(String facilityName) {
@@ -26,11 +24,11 @@ public class MonitorBroadcastProxy implements MonitorBroadcast, RemoteObject {
             if (m.expiry < System.currentTimeMillis()) {
                 availability = "Expired";
             }
-            String[] data = {"MonitorBroadcastSkeleton", "displayAvailability", availability};
+            String[] data = {"MonitorCallbackSkeleton", "displayAvailability", availability};
             int[] intArr = {1};
             byte[] marshalledBytes = MarshalModule.marshal(data, intArr);
 
-            communicationModule.sendRequest(true,marshalledBytes, m.address, m.port);
+            communicationModule.sendRequest(false,marshalledBytes, m.address, m.port);
             if (availability.equals("Expired")) {
                 facility.monitorList.remove(m);
             }

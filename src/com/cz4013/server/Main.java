@@ -8,11 +8,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
 	// write your code here
         for (String a : args) {
-            System.out.println(a);
+//            System.out.println(a);
         }
-        boolean saveHistory = true;
+        boolean atLeastOnce = false;
         if (args.length > 0 && args[0].contains("ATLEASTONE")) {
-            saveHistory = false;
+            atLeastOnce = true;
         }
 
         String remoteBinderIpAddress;
@@ -56,14 +56,14 @@ public class Main {
 
         // instantiate remaining server objects
         Binder b = new Binder();
-        CommunicationModule communicationModule = new CommunicationModule(saveHistory);
-        MonitorBroadcastProxy mbp = new MonitorBroadcastProxy();
+        CommunicationModule communicationModule = new CommunicationModule(atLeastOnce);
+        MonitorCallbackProxy mbp = new MonitorCallbackProxy();
 
 
         // add dependencies
 
         communicationModule.setPrintMessageHead(true);
-        communicationModule.setLossRate(0.5f);
+        communicationModule.setLossRate(0.2f);
         communicationModule.setBinder(b);
         mbp.setCommunicationModule(communicationModule);
         bss.setCommunicationModule(communicationModule);
@@ -71,7 +71,7 @@ public class Main {
         bsi.setMonitorBroadcastProxy(mbp);
 
         // add object to local binder
-//        b.addObjectReference("MonitorBroadcastProxy", mbp);
+//        b.addObjectReference("MonitorCallbackProxy", mbp);
         b.addObjectReference(Integer.toString(bsi.hashCode()), bss);
 
         communicationModule.start();
