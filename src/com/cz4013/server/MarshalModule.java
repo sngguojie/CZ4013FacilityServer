@@ -11,7 +11,7 @@ public class MarshalModule {
     static final int BYTE_CHUNK_SIZE = 4;
     private enum DATATYPE{STRING, INTEGER};
 
-    public static byte[] marshal(String[] strings, int[] ints){
+    public static byte[] marshal(Data data){
         // MessageType 2 bytes, requestId 2 bytes, type of object ref (string 0) 4 bytes, Length of object ref 4 bytes
         // Object ref 4 bytes, type of method id (string 0) 4 bytes, length of method id 4 bytes, method id 4 bytes,
         // type of string (0) 4 bytes, length of string 4 bytes, string chunks of 4 bytes
@@ -27,7 +27,7 @@ public class MarshalModule {
         int strType = 1;
         int intType = 2;
 
-        for (String str : strings){
+        for (String str : data.getStringList()){
             int strLength = str.length();
             outBuf = addIntToByteArray(outBuf, strType, startByte);
             startByte = incrementByteIndex(startByte);
@@ -47,7 +47,7 @@ public class MarshalModule {
             startByte = incrementByteIndex(startByte);
         }
 
-        for (int i : ints){
+        for (int i : data.getIntList()){
             outBuf = addIntToByteArray(outBuf, intType, startByte);
             startByte = incrementByteIndex(startByte);
 

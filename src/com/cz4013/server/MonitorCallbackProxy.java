@@ -24,9 +24,11 @@ public class MonitorCallbackProxy implements MonitorBroadcast, RemoteObject {
             if (m.expiry < System.currentTimeMillis()) {
                 availability = "Expired";
             }
-            String[] data = {"MonitorCallbackSkeleton", "displayAvailability", availability};
-            int[] intArr = {1};
-            byte[] marshalledBytes = MarshalModule.marshal(data, intArr);
+            Data data = new Data();
+            data.addString("MonitorCallbackSkeleton");
+            data.addString("displayAvailability");
+            data.addString(availability);
+            byte[] marshalledBytes = MarshalModule.marshal(data);
 
             communicationModule.sendRequest(false,marshalledBytes, m.address, m.port);
             if (availability.equals("Expired")) {

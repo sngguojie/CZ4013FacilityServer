@@ -62,9 +62,13 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
                 break;
             default: break;
         }
-        String[] stringArray = {"BookingSystemProxy", methodName, result};
-        int[] intArray = {1};
-        return MarshalModule.marshal(stringArray, intArray);
+//        String[] stringArray = {"BookingSystemProxy", methodName, result};
+//        int[] intArray = {1};
+        Data data = new Data();
+        data.addString("BookingSystemProxy");
+        data.addString(methodName);
+        data.addString(result);
+        return MarshalModule.marshal(data);
     }
 
     public String getFacilityAvailability (String facilityName, String d){
