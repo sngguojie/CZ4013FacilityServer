@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class BookingSystemImpl implements BookingSystem {
 
     MonitorBroadcastProxy mbp;
+    private int objectID;
+    public static int BSobjectID = 0;
 
     public BookingSystemImpl() {
         initialise();
@@ -173,6 +175,8 @@ public class BookingSystemImpl implements BookingSystem {
         meetingRoom1.save();
         Facility LectureTheatre1 = new Facility("LectureTheatre1");
         LectureTheatre1.save();
+        BSobjectID += 1;
+        this.objectID = BSobjectID;
     }
 
     private Booking.DAYS getDay (int d) {
@@ -205,6 +209,10 @@ public class BookingSystemImpl implements BookingSystem {
 
     public void setMonitorBroadcastProxy (MonitorBroadcastProxy mbp) {
         this.mbp = mbp;
+    }
+
+    public int getObjectID(){
+        return this.objectID;
     }
 
 }

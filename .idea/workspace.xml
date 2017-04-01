@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eefd3f3d-2edd-47a6-addb-7933b41c835e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cz4013/server/RemoteBinderCommunicationModule.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/Binder.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/Binder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/Data.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/Data.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cz4013/server/Main.java" afterPath="$PROJECT_DIR$/src/com/cz4013/server/Main.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -23,11 +22,23 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="59" lean-forward="false" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
+            <state relative-caret-position="489">
+              <caret line="59" column="49" lean-forward="false" selection-start-line="59" selection-start-column="49" selection-end-line="59" selection-end-column="49" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MonitorBroadcast.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcast.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="11" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -36,17 +47,60 @@
       <file leaf-file-name="MonitorBroadcastProxy.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcastProxy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
+            <state relative-caret-position="210">
               <caret line="25" column="6" lean-forward="false" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#693#694#0" expanded="true" />
-                <element signature="e#720#721#0" expanded="true" />
-                <element signature="e#2433#2434#0" expanded="true" />
-                <element signature="e#2504#2505#0" expanded="true" />
-                <element signature="method#addIntToByteArray#0;class#MonitorBroadcastProxy#0" expanded="false" />
-                <element signature="e#2856#2857#0" expanded="true" />
-                <element signature="e#2901#2902#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RemoteObject.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/RemoteObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="9" column="53" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="53" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RemoteBinderCommunicationModule.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/RemoteBinderCommunicationModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="102" column="35" lean-forward="false" selection-start-line="102" selection-start-column="35" selection-end-line="102" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4215#4216#0" expanded="true" />
+                <element signature="e#4247#4248#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookingSystemSkeleton.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-135">
+              <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CommunicationModule.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="132" column="22" lean-forward="false" selection-start-line="132" selection-start-column="22" selection-end-line="132" selection-end-column="22" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#7619#7620#0" expanded="true" />
+                <element signature="e#7686#7687#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -55,59 +109,17 @@
       <file leaf-file-name="BookingSystemImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="93" column="58" lean-forward="false" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
+            <state relative-caret-position="2040">
+              <caret line="214" column="29" lean-forward="false" selection-start-line="214" selection-start-column="29" selection-end-line="214" selection-end-column="29" />
               <folding>
                 <element signature="method#getFacilityAvailability#0;class#BookingSystemImpl#0" expanded="false" />
                 <element signature="method#bookFacility#0;class#BookingSystemImpl#0" expanded="false" />
                 <element signature="method#monitorFacility#0;class#BookingSystemImpl#0" expanded="false" />
                 <element signature="method#listFacilities#0;class#BookingSystemImpl#0" expanded="false" />
-                <element signature="method#getFacilityWeekAvailability#0;class#BookingSystemImpl#0" expanded="false" />
-                <element signature="method#initialise#0;class#BookingSystemImpl#0" expanded="false" />
                 <element signature="method#getDayString#0;class#BookingSystemImpl#0" expanded="false" />
+                <element signature="e#8315#8316#0" expanded="true" />
+                <element signature="e#8351#8352#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BookingSystemSkeleton.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="66" column="43" lean-forward="false" selection-start-line="66" selection-start-column="43" selection-end-line="66" selection-end-column="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3472#3473#0" expanded="true" />
-                <element signature="e#3533#3534#0" expanded="true" />
-                <element signature="e#3596#3597#0" expanded="true" />
-                <element signature="e#3657#3658#0" expanded="true" />
-                <element signature="e#3894#3895#0" expanded="true" />
-                <element signature="e#3937#3938#0" expanded="true" />
-                <element signature="e#4005#4006#0" expanded="true" />
-                <element signature="e#4050#4051#0" expanded="true" />
-                <element signature="e#4109#4110#0" expanded="true" />
-                <element signature="e#4138#4139#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Facility$DAYS.class" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Facility$DAYS.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Binder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Binder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="23" column="22" lean-forward="false" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -115,58 +127,19 @@
       <file leaf-file-name="Booking.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Booking.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
+            <state relative-caret-position="345">
               <caret line="23" column="5" lean-forward="false" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommunicationModule.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java">
+      <file leaf-file-name="Main.class" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Main.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3120">
-              <caret line="218" column="58" lean-forward="false" selection-start-line="218" selection-start-column="48" selection-end-line="218" selection-end-column="58" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#4153#4154#0" expanded="true" />
-                <element signature="e#4220#4221#0" expanded="true" />
-                <element signature="e#8243#8244#0" expanded="true" />
-                <element signature="e#8310#8311#0" expanded="true" />
-                <element signature="e#8355#8356#0" expanded="true" />
-                <element signature="e#8416#8417#0" expanded="true" />
-                <element signature="e#12355#12356#0" expanded="true" />
-                <element signature="e#12415#12416#0" expanded="true" />
-                <element signature="e#12458#12459#0" expanded="true" />
-                <element signature="e#12494#12495#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MarshalModule.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-231">
-              <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#4575#4576#0" expanded="true" />
-                <element signature="e#4646#4647#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Data.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Data.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="67" column="5" lean-forward="false" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#toString#0;class#Data#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -185,6 +158,7 @@
       <find>facilityHashMap</find>
       <find>getremoteobject</find>
       <find>serverPort</find>
+      <find>serverport</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -203,14 +177,15 @@
         <option value="$PROJECT_DIR$/src/com/cz4013/server/Booking.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcast.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystem.java" />
-        <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcastProxy.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/Binder.java" />
-        <option value="$PROJECT_DIR$/src/com/cz4013/server/Main.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/Data.java" />
         <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java" />
+        <option value="$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java" />
+        <option value="$PROJECT_DIR$/src/com/cz4013/server/RemoteBinderCommunicationModule.java" />
+        <option value="$PROJECT_DIR$/src/com/cz4013/server/Main.java" />
       </list>
     </option>
   </component>
@@ -266,9 +241,9 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -422,7 +397,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32802126" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -498,27 +473,12 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="55" lean-forward="true" selection-start-line="10" selection-start-column="55" selection-end-line="10" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcastProxy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#693#694#0" expanded="true" />
-            <element signature="e#720#721#0" expanded="true" />
-            <element signature="e#2433#2434#0" expanded="true" />
-            <element signature="e#2504#2505#0" expanded="true" />
-            <element signature="method#addIntToByteArray#0;class#MonitorBroadcastProxy#0" expanded="false" />
-            <element signature="e#2856#2857#0" expanded="true" />
-            <element signature="e#2901#2902#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -532,9 +492,9 @@
             <element signature="method#bookFacility#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#monitorFacility#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#listFacilities#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#getFacilityWeekAvailability#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#initialise#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#getDayString#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="e#8315#8316#0" expanded="true" />
+            <element signature="e#8351#8352#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -555,16 +515,6 @@
           <caret line="90" column="14" lean-forward="false" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3472#3473#0" expanded="true" />
-            <element signature="e#3533#3534#0" expanded="true" />
-            <element signature="e#3596#3597#0" expanded="true" />
-            <element signature="e#3657#3658#0" expanded="true" />
-            <element signature="e#3894#3895#0" expanded="true" />
-            <element signature="e#3937#3938#0" expanded="true" />
-            <element signature="e#4005#4006#0" expanded="true" />
-            <element signature="e#4050#4051#0" expanded="true" />
-            <element signature="e#4109#4110#0" expanded="true" />
-            <element signature="e#4138#4139#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -575,16 +525,8 @@
           <caret line="33" column="85" lean-forward="false" selection-start-line="33" selection-start-column="64" selection-end-line="33" selection-end-column="85" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4153#4154#0" expanded="true" />
-            <element signature="e#4220#4221#0" expanded="true" />
-            <element signature="e#8243#8244#0" expanded="true" />
-            <element signature="e#8310#8311#0" expanded="true" />
-            <element signature="e#8355#8356#0" expanded="true" />
-            <element signature="e#8416#8417#0" expanded="true" />
-            <element signature="e#12355#12356#0" expanded="true" />
-            <element signature="e#12415#12416#0" expanded="true" />
-            <element signature="e#12458#12459#0" expanded="true" />
-            <element signature="e#12494#12495#0" expanded="true" />
+            <element signature="e#7619#7620#0" expanded="true" />
+            <element signature="e#7686#7687#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -665,7 +607,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="55" lean-forward="false" selection-start-line="10" selection-start-column="55" selection-end-line="10" selection-end-column="55" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -675,13 +619,6 @@
           <caret line="10" column="27" lean-forward="false" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#693#694#0" expanded="true" />
-            <element signature="e#720#721#0" expanded="true" />
-            <element signature="e#2433#2434#0" expanded="true" />
-            <element signature="e#2504#2505#0" expanded="true" />
-            <element signature="method#addIntToByteArray#0;class#MonitorBroadcastProxy#0" expanded="false" />
-            <element signature="e#2856#2857#0" expanded="true" />
-            <element signature="e#2901#2902#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -691,8 +628,25 @@
         <state relative-caret-position="495">
           <caret line="63" column="1" lean-forward="false" selection-start-line="63" selection-start-column="1" selection-end-line="63" selection-end-column="1" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#460#461#0" expanded="false" />
+            <element signature="e#500#501#0" expanded="false" />
+            <element signature="e#532#533#0" expanded="false" />
+            <element signature="e#567#568#0" expanded="false" />
+            <element signature="e#628#629#0" expanded="false" />
+            <element signature="e#682#683#0" expanded="false" />
+            <element signature="e#729#730#0" expanded="false" />
+            <element signature="e#769#770#0" expanded="false" />
+            <element signature="e#816#817#0" expanded="false" />
+            <element signature="e#854#855#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#934#935#0" expanded="false" />
+            <element signature="e#975#976#0" expanded="false" />
+            <element signature="e#1018#1019#0" expanded="false" />
+            <element signature="e#1052#1053#0" expanded="false" />
+            <element signature="e#1088#1089#0" expanded="false" />
             <element signature="method#toString#0;class#Data#0" expanded="false" />
+            <element signature="e#1483#1484#0" expanded="false" />
+            <element signature="e#1550#1551#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -716,9 +670,9 @@
             <element signature="method#bookFacility#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#monitorFacility#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#listFacilities#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#getFacilityWeekAvailability#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#initialise#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#getDayString#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="e#8315#8316#0" expanded="true" />
+            <element signature="e#8351#8352#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -735,7 +689,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#297#298#0" expanded="false" />
+            <element signature="e#358#359#0" expanded="false" />
+            <element signature="e#416#417#0" expanded="false" />
+            <element signature="e#476#477#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -745,16 +704,6 @@
           <caret line="24" column="32" lean-forward="false" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3472#3473#0" expanded="true" />
-            <element signature="e#3533#3534#0" expanded="true" />
-            <element signature="e#3596#3597#0" expanded="true" />
-            <element signature="e#3657#3658#0" expanded="true" />
-            <element signature="e#3894#3895#0" expanded="true" />
-            <element signature="e#3937#3938#0" expanded="true" />
-            <element signature="e#4005#4006#0" expanded="true" />
-            <element signature="e#4050#4051#0" expanded="true" />
-            <element signature="e#4109#4110#0" expanded="true" />
-            <element signature="e#4138#4139#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -765,16 +714,8 @@
           <caret line="135" column="59" lean-forward="false" selection-start-line="135" selection-start-column="59" selection-end-line="135" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4153#4154#0" expanded="true" />
-            <element signature="e#4220#4221#0" expanded="true" />
-            <element signature="e#8243#8244#0" expanded="true" />
-            <element signature="e#8310#8311#0" expanded="true" />
-            <element signature="e#8355#8356#0" expanded="true" />
-            <element signature="e#8416#8417#0" expanded="true" />
-            <element signature="e#12355#12356#0" expanded="true" />
-            <element signature="e#12415#12416#0" expanded="true" />
-            <element signature="e#12458#12459#0" expanded="true" />
-            <element signature="e#12494#12495#0" expanded="true" />
+            <element signature="e#7619#7620#0" expanded="true" />
+            <element signature="e#7686#7687#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -784,9 +725,10 @@
         <state relative-caret-position="1305">
           <caret line="142" column="0" lean-forward="false" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4575#4576#0" expanded="true" />
-            <element signature="e#4646#4647#0" expanded="true" />
+            <marker date="1491036536000" expanded="true" signature="4202:4375" ph="{...}" />
+            <marker date="1491036536000" expanded="false" signature="4428:4438" ph=" { " />
+            <marker date="1491036536000" expanded="false" signature="4494:4500" ph=" }" />
+            <marker date="1491036536000" expanded="true" signature="4586:4792" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -795,7 +737,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="55" lean-forward="true" selection-start-line="10" selection-start-column="55" selection-end-line="10" selection-end-column="55" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -805,13 +749,6 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#693#694#0" expanded="true" />
-            <element signature="e#720#721#0" expanded="true" />
-            <element signature="e#2433#2434#0" expanded="true" />
-            <element signature="e#2504#2505#0" expanded="true" />
-            <element signature="method#addIntToByteArray#0;class#MonitorBroadcastProxy#0" expanded="false" />
-            <element signature="e#2856#2857#0" expanded="true" />
-            <element signature="e#2901#2902#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -825,9 +762,9 @@
             <element signature="method#bookFacility#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#monitorFacility#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#listFacilities#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#getFacilityWeekAvailability#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#initialise#0;class#BookingSystemImpl#0" expanded="false" />
             <element signature="method#getDayString#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="e#8315#8316#0" expanded="true" />
+            <element signature="e#8351#8352#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -848,16 +785,6 @@
           <caret line="90" column="14" lean-forward="false" selection-start-line="90" selection-start-column="8" selection-end-line="90" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3472#3473#0" expanded="true" />
-            <element signature="e#3533#3534#0" expanded="true" />
-            <element signature="e#3596#3597#0" expanded="true" />
-            <element signature="e#3657#3658#0" expanded="true" />
-            <element signature="e#3894#3895#0" expanded="true" />
-            <element signature="e#3937#3938#0" expanded="true" />
-            <element signature="e#4005#4006#0" expanded="true" />
-            <element signature="e#4050#4051#0" expanded="true" />
-            <element signature="e#4109#4110#0" expanded="true" />
-            <element signature="e#4138#4139#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -868,16 +795,8 @@
           <caret line="33" column="85" lean-forward="false" selection-start-line="33" selection-start-column="64" selection-end-line="33" selection-end-column="85" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4153#4154#0" expanded="true" />
-            <element signature="e#4220#4221#0" expanded="true" />
-            <element signature="e#8243#8244#0" expanded="true" />
-            <element signature="e#8310#8311#0" expanded="true" />
-            <element signature="e#8355#8356#0" expanded="true" />
-            <element signature="e#8416#8417#0" expanded="true" />
-            <element signature="e#12355#12356#0" expanded="true" />
-            <element signature="e#12415#12416#0" expanded="true" />
-            <element signature="e#12458#12459#0" expanded="true" />
-            <element signature="e#12494#12495#0" expanded="true" />
+            <element signature="e#7619#7620#0" expanded="true" />
+            <element signature="e#7686#7687#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -922,24 +841,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/RemoteObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="53" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Monitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcast.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="11" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -949,22 +854,6 @@
           <caret line="14" column="36" lean-forward="false" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="93" column="58" lean-forward="false" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
-          <folding>
-            <element signature="method#getFacilityAvailability#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#bookFacility#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#monitorFacility#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#listFacilities#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#getFacilityWeekAvailability#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#initialise#0;class#BookingSystemImpl#0" expanded="false" />
-            <element signature="method#getDayString#0;class#BookingSystemImpl#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -981,102 +870,154 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="23" column="22" lean-forward="false" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="59" lean-forward="false" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3120">
-          <caret line="218" column="58" lean-forward="false" selection-start-line="218" selection-start-column="48" selection-end-line="218" selection-end-column="58" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4153#4154#0" expanded="true" />
-            <element signature="e#4220#4221#0" expanded="true" />
-            <element signature="e#8243#8244#0" expanded="true" />
-            <element signature="e#8310#8311#0" expanded="true" />
-            <element signature="e#8355#8356#0" expanded="true" />
-            <element signature="e#8416#8417#0" expanded="true" />
-            <element signature="e#12355#12356#0" expanded="true" />
-            <element signature="e#12415#12416#0" expanded="true" />
-            <element signature="e#12458#12459#0" expanded="true" />
-            <element signature="e#12494#12495#0" expanded="true" />
+            <element signature="e#297#298#0" expanded="false" />
+            <element signature="e#358#359#0" expanded="false" />
+            <element signature="e#416#417#0" expanded="false" />
+            <element signature="e#476#477#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MarshalModule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-231">
+        <state relative-caret-position="120">
           <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4575#4576#0" expanded="true" />
-            <element signature="e#4646#4647#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcastProxy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="25" column="6" lean-forward="false" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#693#694#0" expanded="true" />
-            <element signature="e#720#721#0" expanded="true" />
-            <element signature="e#2433#2434#0" expanded="true" />
-            <element signature="e#2504#2505#0" expanded="true" />
-            <element signature="method#addIntToByteArray#0;class#MonitorBroadcastProxy#0" expanded="false" />
-            <element signature="e#2856#2857#0" expanded="true" />
-            <element signature="e#2901#2902#0" expanded="true" />
+            <marker date="1491036536000" expanded="true" signature="4202:4375" ph="{...}" />
+            <marker date="1491036536000" expanded="false" signature="4428:4438" ph=" { " />
+            <marker date="1491036536000" expanded="false" signature="4494:4500" ph=" }" />
+            <marker date="1491036536000" expanded="true" signature="4586:4792" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Data.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
+        <state relative-caret-position="555">
           <caret line="67" column="5" lean-forward="false" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#460#461#0" expanded="false" />
+            <element signature="e#500#501#0" expanded="false" />
+            <element signature="e#532#533#0" expanded="false" />
+            <element signature="e#567#568#0" expanded="false" />
+            <element signature="e#628#629#0" expanded="false" />
+            <element signature="e#682#683#0" expanded="false" />
+            <element signature="e#729#730#0" expanded="false" />
+            <element signature="e#769#770#0" expanded="false" />
+            <element signature="e#816#817#0" expanded="false" />
+            <element signature="e#854#855#0" expanded="false" />
+            <element signature="e#899#900#0" expanded="false" />
+            <element signature="e#934#935#0" expanded="false" />
+            <element signature="e#975#976#0" expanded="false" />
+            <element signature="e#1018#1019#0" expanded="false" />
+            <element signature="e#1052#1053#0" expanded="false" />
+            <element signature="e#1088#1089#0" expanded="false" />
             <element signature="method#toString#0;class#Data#0" expanded="false" />
+            <element signature="e#1483#1484#0" expanded="false" />
+            <element signature="e#1550#1551#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Booking.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
+        <state relative-caret-position="345">
           <caret line="23" column="5" lean-forward="false" selection-start-line="23" selection-start-column="5" selection-end-line="23" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Main.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2040">
+          <caret line="214" column="29" lean-forward="false" selection-start-line="214" selection-start-column="29" selection-end-line="214" selection-end-column="29" />
+          <folding>
+            <element signature="method#getFacilityAvailability#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#bookFacility#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#monitorFacility#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#listFacilities#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="method#getDayString#0;class#BookingSystemImpl#0" expanded="false" />
+            <element signature="e#8315#8316#0" expanded="true" />
+            <element signature="e#8351#8352#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/BookingSystemSkeleton.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="66" column="43" lean-forward="false" selection-start-line="66" selection-start-column="43" selection-end-line="66" selection-end-column="43" />
+        <state relative-caret-position="-135">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3472#3473#0" expanded="true" />
-            <element signature="e#3533#3534#0" expanded="true" />
-            <element signature="e#3596#3597#0" expanded="true" />
-            <element signature="e#3657#3658#0" expanded="true" />
-            <element signature="e#3894#3895#0" expanded="true" />
-            <element signature="e#3937#3938#0" expanded="true" />
-            <element signature="e#4005#4006#0" expanded="true" />
-            <element signature="e#4050#4051#0" expanded="true" />
-            <element signature="e#4109#4110#0" expanded="true" />
-            <element signature="e#4138#4139#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/CommunicationModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="132" column="22" lean-forward="false" selection-start-line="132" selection-start-column="22" selection-end-line="132" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7619#7620#0" expanded="true" />
+            <element signature="e#7686#7687#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/RemoteObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="9" column="53" lean-forward="true" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/RemoteBinderCommunicationModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="102" column="35" lean-forward="false" selection-start-line="102" selection-start-column="35" selection-end-line="102" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4215#4216#0" expanded="true" />
+            <element signature="e#4247#4248#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcast.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="11" lean-forward="false" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/MonitorBroadcastProxy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="25" column="6" lean-forward="false" selection-start-line="25" selection-start-column="6" selection-end-line="25" selection-end-column="6" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cz4013/server/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="59" column="49" lean-forward="false" selection-start-line="59" selection-start-column="49" selection-end-line="59" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

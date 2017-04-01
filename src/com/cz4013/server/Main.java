@@ -1,6 +1,7 @@
 package com.cz4013.server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 public class Main {
 
@@ -14,23 +15,49 @@ public class Main {
             saveHistory = false;
         }
 
+        // set IP addresses and ports
+        String[] localHostString = InetAddress.getLocalHost().toString().split("/");
+        String serverIpAddress = localHostString[localHostString.length - 1];
+        String remoteBinderIpAddress = "192.168.1.41";
+        int remoteBinderPort = 2219;
+        int serverPortForRemoteBinder = 2220;
+        int serverPort = 2222;
+
+
+        // instantiate remote binder comms module and object references to be stored
+        RemoteBinderCommunicationModule rbcm = new RemoteBinderCommunicationModule(serverPortForRemoteBinder, remoteBinderIpAddress, remoteBinderPort);
+        BookingSystemImpl bsi = new BookingSystemImpl();
+        BookingSystemSkeleton bss = new BookingSystemSkeleton();
+
+        // add BookingSystem object to remote binder table
+        String remoteObjectName = "BookingSystem";
+        String remoteObjectReference = serverIpAddress + "," + serverPort + "," + bsi.hashCode();
+        rbcm.start();
+        System.out.println(rbcm.sendAddRequest(remoteObjectName, remoteObjectReference));
+        rbcm.setExit(true);
+
+        // give server time to close udp socket
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
+        // instantiate remaining server objects
         Binder b = new Binder();
         CommunicationModule communicationModule = new CommunicationModule(saveHistory);
-        BookingSystemSkeleton bss = new BookingSystemSkeleton();
         MonitorBroadcastProxy mbp = new MonitorBroadcastProxy();
-        BookingSystemImpl bsi = new BookingSystemImpl();
 
+        // add dependencies
         communicationModule.setBinder(b);
         mbp.setCommunicationModule(communicationModule);
         bss.setCommunicationModule(communicationModule);
-
         bss.setBookingSystem(bsi);
         bsi.setMonitorBroadcastProxy(mbp);
 
-        b.addObjectReference("MonitorBroadcastProxy", mbp);
-        b.addObjectReference("BookingSystemSkeleton", bss);
-
-
+        // add object to local binder
+//        b.addObjectReference("MonitorBroadcastProxy", mbp);
+        b.addObjectReference(Integer.toString(bsi.hashCode()), bss);
 
         communicationModule.start();
     }

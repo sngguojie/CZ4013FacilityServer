@@ -15,6 +15,7 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
     private enum DATATYPE{STRING, INTEGER};
     CommunicationModule communicationModule;
 
+
     public BookingSystemSkeleton () {
 
     }
@@ -96,4 +97,6 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
     public void setBookingSystem (BookingSystemImpl bsi) {
         this.bs = bsi;
     }
+
+
 }
