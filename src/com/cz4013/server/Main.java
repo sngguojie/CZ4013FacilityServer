@@ -48,7 +48,11 @@ public class Main {
         CommunicationModule communicationModule = new CommunicationModule(saveHistory);
         MonitorBroadcastProxy mbp = new MonitorBroadcastProxy();
 
+
         // add dependencies
+
+        communicationModule.setPrintMessageHead(true);
+        communicationModule.setLossRate(0.5f);
         communicationModule.setBinder(b);
         mbp.setCommunicationModule(communicationModule);
         bss.setCommunicationModule(communicationModule);
