@@ -15,12 +15,23 @@ public class Main {
             saveHistory = false;
         }
 
+        String remoteBinderIpAddress;
+        int remoteBinderPort;
+        int serverPortForRemoteBinder;
+
+        if (args.length >= 4){
+            remoteBinderIpAddress = args[1];
+            remoteBinderPort = Integer.parseInt(args[2]);
+            serverPortForRemoteBinder = Integer.parseInt(args[3]);
+        } else {
+            remoteBinderIpAddress = "192.168.1.41";
+            remoteBinderPort = 2219;
+            serverPortForRemoteBinder = 2220;
+        }
+
         // set IP addresses and ports
         String[] localHostString = InetAddress.getLocalHost().toString().split("/");
         String serverIpAddress = localHostString[localHostString.length - 1];
-        String remoteBinderIpAddress = "192.168.1.41";
-        int remoteBinderPort = 2219;
-        int serverPortForRemoteBinder = 2220;
         int serverPort = 2222;
 
 
@@ -38,7 +49,7 @@ public class Main {
 
         // give server time to close udp socket
         try {
-            Thread.sleep(500);
+            Thread.sleep(800);
         } catch (InterruptedException e){
             e.printStackTrace();
         }
