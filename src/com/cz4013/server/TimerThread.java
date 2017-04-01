@@ -25,9 +25,11 @@ public class TimerThread extends Thread {
 
     public void run () {
         do {
+            System.out.println("Sending Packet");
             try {
-                socket.send(packet);
-                System.out.println("Sending Packet");
+                if (!cm.isPacketLoss()) {
+                    socket.send(packet);
+                }
                 Thread.sleep(this.timeout);
             } catch (InterruptedException ie) {
                 ie.printStackTrace();

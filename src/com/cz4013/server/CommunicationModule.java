@@ -17,36 +17,36 @@ public class CommunicationModule extends Thread {
     protected int serverPort;
     protected HashMap<Integer, byte[]> requestHistory = new HashMap<Integer,byte[]>();
     protected HashMap<Integer, Boolean> receivedResponse = new HashMap<Integer,Boolean>();
-
+    Random random = new Random();
     private Binder binder;
     private final int MAX_BYTE_SIZE = 1024;
-    private boolean saveHistory;
+    private boolean atLeastOne;
     private boolean printMessageHeadOn = false;
     private float lossRate;
 
-    public CommunicationModule(boolean saveHistory) throws IOException {
+    public CommunicationModule(boolean atLeastOne) throws IOException {
         // PORT 2222 is default for NTU computers
-        this("CommunicationModule", 2222, saveHistory);
+        this("CommunicationModule", 2222, atLeastOne);
     }
 
-    public CommunicationModule(String name, int PORT, boolean saveHistory) throws IOException {
+    public CommunicationModule(String name, int PORT, boolean atLeastOne) throws IOException {
         super(name);
         socket = new DatagramSocket(new InetSocketAddress(PORT));
 //        serverPort = PORT;
         String[] localHostString = InetAddress.getLocalHost().toString().split("/");
         System.out.println(localHostString[localHostString.length - 1]);
         serverAddress = InetAddress.getByName(localHostString[localHostString.length - 1]);
-        this.saveHistory = saveHistory;
+        this.atLeastOne = atLeastOne;
     }
 
     public void waitForPacket () {
-        Random random = new Random();
+
         while (this.isRunning) {
             try {
                 byte[] buf = new byte[MAX_BYTE_SIZE];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
-                if (random.nextFloat() <= this.lossRate) {
+                if (isPacketLoss()) {
                     continue;
                 }
                 printMessageHead(packet,true);
@@ -263,6 +263,9 @@ public class CommunicationModule extends Thread {
         byte[] buf = payload;
         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
         printMessageHead(packet,false);
+        if (isPacketLoss()) {
+            return;
+        }
         socket.send(packet);
     }
 
@@ -358,5 +361,9 @@ public class CommunicationModule extends Thread {
 
     public boolean gotResponse(int requestId) {
         return receivedResponse.containsKey(requestId) && receivedResponse.get(requestId);
+    }
+
+    public boolean isPacketLoss() {
+        return random.nextFloat() <= this.lossRate;
     }
 }
