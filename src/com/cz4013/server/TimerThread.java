@@ -23,6 +23,10 @@ public class TimerThread extends Thread {
         this.requestId = requestId;
     }
 
+    /**
+     * To send a request if the packet is not simulated to be lost and then sleeping until the timeout occurs
+     * If the response has not been received, then the packet will be resent
+     */
     public void run () {
         do {
             System.out.println("Sending Packet");

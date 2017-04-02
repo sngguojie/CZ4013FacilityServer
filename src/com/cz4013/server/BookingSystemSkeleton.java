@@ -1,25 +1,17 @@
 package com.cz4013.server;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-
-/**
- * Created by melvynsng on 3/30/17.
- */
 public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
 
     BookingSystemImpl bs;
 
-    private final int MAX_BYTE_SIZE = 1024;
-    private final int BYTE_CHUNK_SIZE = 4;
-    private enum DATATYPE{STRING, INTEGER};
     CommunicationModule communicationModule;
 
-
-    public BookingSystemSkeleton () {
-
-    }
-
+    /**
+     * Takes a byte array as input, unmarshalls the byte array, and passing the arguments to the implementation of the booking system methods.
+     * Returns the result from the execution of the booking system methods by marshalling the data back to a byte array
+     * @param requestBody
+     * @return
+     */
     public byte[] handleRequest (byte[] requestBody) {
         Data unmarshalledData = MarshalModule.unmarshal(requestBody);
         String methodName = unmarshalledData.getMethodId();
@@ -62,8 +54,6 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
                 break;
             default: break;
         }
-//        String[] stringArray = {"BookingSystemProxy", methodName, result};
-//        int[] intArray = {1};
         Data data = new Data();
         data.addString("BookingSystemProxy");
         data.addString(methodName);
@@ -71,33 +61,80 @@ public class BookingSystemSkeleton implements BookingSystem, RemoteObject {
         return MarshalModule.marshal(data);
     }
 
-    public String getFacilityAvailability (String facilityName, String d){
-        return bs.getFacilityAvailability(facilityName, d);
+    /**
+     * Pass the arguments to the booking system implementation for getFacilityAvailability method
+     * @param facilityName
+     * @param daysString
+     * @return
+     */
+    public String getFacilityAvailability (String facilityName, String daysString){
+        return bs.getFacilityAvailability(facilityName, daysString);
     };
 
-    public String bookFacility (String facilityName, int d, int s, int e){
-        return bs.bookFacility(facilityName, d, s, e);
+    /**
+     * Pass the arguments to the booking system implementation for bookFacility method
+     * @param facilityName
+     * @param dayInt
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public String bookFacility (String facilityName, int dayInt, int startTime, int endTime){
+        return bs.bookFacility(facilityName, dayInt, startTime, endTime);
     };
 
+    /**
+     * Pass the arguments to the booking system implementation for changeBooking method
+     * @param confirmID
+     * @param offset
+     * @return
+     */
     public String changeBooking (String confirmID, int offset){
         return bs.changeBooking ( confirmID,  offset);
     };
 
+    /**
+     * Pass the arguments to the booking system implementation for extendBooking method
+     * @param confirmID
+     * @param offset
+     * @return
+     */
     public String extendBooking (String confirmID, int offset){
         return bs.extendBooking ( confirmID,  offset);
     };
 
+    /**
+     * Pass the arguments to the booking system implementation for monitorFacility method
+     * @param facilityName
+     * @param address
+     * @param intervalMinutes
+     * @param port
+     * @return
+     */
     public String monitorFacility (String facilityName, String address, int intervalMinutes, int port){
         return bs.monitorFacility ( facilityName,  address,  intervalMinutes,  port);
     };
 
+    /**
+     * Pass the arguments to the booking system implementation for listFacilities method
+     * @return
+     */
     public String listFacilities (){
         return bs.listFacilities ();
     };
 
-    public void setCommunicationModule (CommunicationModule cm) {
-        this.communicationModule = cm;
+    /**
+     * Sets the reference to the communication module instance
+     * @param communicationModule
+     */
+    public void setCommunicationModule (CommunicationModule communicationModule) {
+        this.communicationModule = communicationModule;
     }
+
+    /**
+     * Sets the reference to the Booking System Implementation instance
+     * @param bsi
+     */
     public void setBookingSystem (BookingSystemImpl bsi) {
         this.bs = bsi;
     }

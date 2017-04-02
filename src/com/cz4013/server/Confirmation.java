@@ -15,6 +15,10 @@ public class Confirmation {
         this.booking = booking;
     }
 
+    /**
+     * To store the confirmation of the booking with a unique ID
+     * @return
+     */
     public int save() {
         int i = 0;
         while (confirmationHashMap.containsKey(i)) {

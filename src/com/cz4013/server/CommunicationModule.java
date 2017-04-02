@@ -33,13 +33,15 @@ public class CommunicationModule extends Thread {
     public CommunicationModule(String name, int PORT, boolean atLeastOne) throws IOException {
         super(name);
         socket = new DatagramSocket(new InetSocketAddress(PORT));
-//        serverPort = PORT;
         String[] localHostString = InetAddress.getLocalHost().toString().split("/");
         System.out.println(localHostString[localHostString.length - 1]);
         serverAddress = InetAddress.getByName(localHostString[localHostString.length - 1]);
         this.atLeastOne = atLeastOne;
     }
 
+    /**
+     * For listening for incoming packets while the thread is running
+     */
     public void waitForPacket () {
 
         while (this.isRunning) {
@@ -61,17 +63,29 @@ public class CommunicationModule extends Thread {
         }
     }
 
+    /**
+     * To set the loss rate for packets (probability that a packet is loss during sending/receiveing)
+     * @param lossRate
+     */
     public void setLossRate (float lossRate) {
         this.lossRate = lossRate;
     }
 
-
+    /**
+     * To start listening for requests when the thread starts
+     */
     public void run () {
         System.out.println("CommunicationModule Running");
         waitForPacket();
         socket.close();
     }
 
+    /**
+     * To identify the message type of the packet given
+     * @param messageTypeByte
+     * @param idempotentTypeByte
+     * @return
+     */
     private MSGTYPE getMessageType (byte messageTypeByte, byte idempotentTypeByte) {
         if (messageTypeByte == (byte)0x00 && idempotentTypeByte == (byte)0x00) {
             return MSGTYPE.IDEMPOTENT_REQUEST; // Request
@@ -88,6 +102,11 @@ public class CommunicationModule extends Thread {
         return null;
     }
 
+    /**
+     * Returns the byte array for a speified message type
+     * @param messageType
+     * @return
+     */
     private byte[] getMessageTypeAsBytes (MSGTYPE messageType) {
         byte messageTypeByte = (byte)0x00;
         byte idempotentTypeByte = (byte)0x00;
@@ -118,8 +137,14 @@ public class CommunicationModule extends Thread {
 
     }
 
+    /**
+     * To construct a response head to be appended to the packet given a message type and request id
+     * @param messageType
+     * @param requestId
+     * @return
+     */
     private byte[] getResponseHead (MSGTYPE messageType, int requestId) {
-        byte[] requestIdBytes = getHalfWordAsBytes(requestId);
+        byte[] requestIdBytes = ByteUtils.getHalfWordAsBytes(requestId);
         byte[] messageTypeBytes = getMessageTypeAsBytes(messageType);
         byte[] result = new byte[4];
         System.arraycopy(messageTypeBytes, 0, result, 0, 2);
@@ -127,29 +152,23 @@ public class CommunicationModule extends Thread {
         return result;
     }
 
-    private int getBytesAsHalfWord (byte[] bytes) {
-        return ((bytes[1] & 0xff) << 8) | (bytes[0] & 0xff);
-    }
-
-    private byte[] getHalfWordAsBytes (int halfword) {
-        byte[] data = new byte[2];
-        data[0] = (byte) (halfword & 0xFF);
-        data[1] = (byte) ((halfword >> 8) & 0xFF);
-        return data;
-    }
-
-    private byte[] combineByteArrays (byte[] a, byte[] b) {
-        byte[] c = new byte[a.length + b.length];
-        System.arraycopy(a, 0, c, 0, a.length);
-        System.arraycopy(b, 0, c, a.length, b.length);
-        return c;
-    }
-
+    /**
+     * To identify and retrieve the Remote Object from the payload data of the packet
+     * @param payload
+     * @return
+     */
     private RemoteObject getRemoteObject (byte[] payload) {
         String objectRefName = MarshalModule.unmarshal(payload).getObjectReference();
         return binder.getObjectReference(objectRefName);
     }
 
+    /**
+     * To handle an incoming packet by deciding what actions to execute based on the contents of the packet data
+     * @param payload
+     * @param address
+     * @param port
+     * @throws IOException
+     */
     private void handlePacketIn(byte[] payload, InetAddress address, int port) throws IOException {
         byte messageTypeByte = payload[0];
         byte idempotentTypeByte = payload[1];
@@ -157,7 +176,7 @@ public class CommunicationModule extends Thread {
         System.arraycopy(payload, 2, requestIdBytes, 0, 2);
 
         MSGTYPE messageType = getMessageType(messageTypeByte, idempotentTypeByte);
-        int requestId = getBytesAsHalfWord(requestIdBytes);
+        int requestId = ByteUtils.getBytesAsHalfWord(requestIdBytes);
         byte[] inHead = Arrays.copyOfRange(payload, 0, 4);
         byte[] inBody = Arrays.copyOfRange(payload, 4, payload.length);
         byte[] outHead, outBody, out;
@@ -178,7 +197,7 @@ public class CommunicationModule extends Thread {
                 receivedRequest.put(inHead, true);
                 outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
                 outBody = getRemoteObjectResponse(inBody);
-                out = combineByteArrays(outHead, outBody);
+                out = ByteUtils.combineByteArrays(outHead, outBody);
                 messageHistory.put(inHead,out);
                 System.out.println("store message in messageHistory");
                 sendReponsePacketOut(out, address, port);
@@ -199,7 +218,7 @@ public class CommunicationModule extends Thread {
 
                 outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
                 outBody = getRemoteObjectResponse(inBody);
-                out = combineByteArrays(outHead, outBody);
+                out = ByteUtils.combineByteArrays(outHead, outBody);
                 messageHistory.put(inHead,out);
                 System.out.println("store message in messageHistory");
                 sendReponsePacketOut(out, address, port);
@@ -220,11 +239,21 @@ public class CommunicationModule extends Thread {
 
     }
 
+    /**
+     * To get the response from a remote object given the byte array data from the packet
+     * Returns the repsonse of the remote object in the form of a byte array
+     * @param requestBody
+     * @return
+     */
     private byte[] getRemoteObjectResponse (byte[] requestBody) {
         RemoteObject remoteObject = getRemoteObject(requestBody);
         return remoteObject.handleRequest(requestBody);
     }
 
+    /**
+     * To generate a new request ID for each new request initiated by the server
+     * @return
+     */
     private int getNewRequestId () {
         int i = 0;
         while (requestHistory.containsKey(i)) {
@@ -236,14 +265,33 @@ public class CommunicationModule extends Thread {
         return i;
     }
 
-    public byte[] sendRequest(boolean isIdempotent, byte[] data) {
+    /**
+     * To send a request to the server
+     * @param isIdempotent
+     * @param data
+     * @return
+     */
+    public byte[] sendRequestToServer(boolean isIdempotent, byte[] data) {
         return sendRequest(isIdempotent, data, serverAddress, serverPort);
     }
 
-    public void sendResponse(boolean isIdempotent, byte[] data) {
+    /**
+     * To send a response to the server
+     * @param isIdempotent
+     * @param data
+     */
+    public void sendResponseToServer(boolean isIdempotent, byte[] data) {
         sendResponse(isIdempotent, data, serverAddress, serverPort);
     }
 
+    /**
+     * To send a request to a specified address and port
+     * @param isIdempotent
+     * @param data
+     * @param address
+     * @param port
+     * @return
+     */
     public byte[] sendRequest(boolean isIdempotent, byte[] data, InetAddress address, int port) {
         try {
             byte[] payload = makePayload(isIdempotent, true, data);
@@ -254,6 +302,13 @@ public class CommunicationModule extends Thread {
         return null;
     }
 
+    /**
+     * To send a response to a specified address and port
+     * @param isIdempotent
+     * @param data
+     * @param address
+     * @param port
+     */
     public void sendResponse(boolean isIdempotent, byte[] data, InetAddress address, int port) {
         try {
             byte[] payload = makePayload(isIdempotent, false, data);
@@ -263,6 +318,14 @@ public class CommunicationModule extends Thread {
         }
     }
 
+    /**
+     * To construct the payload for a packet given the marshalled byte array data and the message type
+     * @param isIdempotent
+     * @param isRequest
+     * @param data
+     * @return
+     * @throws IOException
+     */
     private byte[] makePayload (boolean isIdempotent, boolean isRequest, byte[] data) throws IOException {
         int requestIdInt = getNewRequestId();
         MSGTYPE messageType;
@@ -271,11 +334,18 @@ public class CommunicationModule extends Thread {
         else
             messageType = isIdempotent ? MSGTYPE.IDEMPOTENT_RESPONSE : MSGTYPE.NON_IDEMPOTENT_RESPONSE;
         byte[] outHead = getResponseHead(messageType, requestIdInt);
-        byte[] out = combineByteArrays(outHead, data);
+        byte[] out = ByteUtils.combineByteArrays(outHead, data);
         requestHistory.put(requestIdInt,out);
         return out;
     }
 
+    /**
+     * To send a response packet to the specified address and port
+     * @param payload
+     * @param address
+     * @param port
+     * @throws IOException
+     */
     private void sendReponsePacketOut (byte[] payload, InetAddress address, int port) throws IOException {
         if (payload == null) {
             return;
@@ -290,6 +360,15 @@ public class CommunicationModule extends Thread {
         socket.send(packet);
     }
 
+    /**
+     * To send a request packed out to the specified address and port
+     * The difference with the response packet is the request implements a timeout which will resend the request if no response has been received
+     * @param payload
+     * @param address
+     * @param port
+     * @return
+     * @throws IOException
+     */
     private byte[] sendRequestPacketOut (byte[] payload, InetAddress address, int port) throws IOException {
         if (payload == null) {
             return null;
@@ -297,7 +376,7 @@ public class CommunicationModule extends Thread {
         boolean resend = true;
         byte[] requestIdBytesOut = new byte[2];
         System.arraycopy(payload, 2, requestIdBytesOut, 0, 2);
-        int requestIdOut = getBytesAsHalfWord(requestIdBytesOut);
+        int requestIdOut = ByteUtils.getBytesAsHalfWord(requestIdBytesOut);
         // send request
         do {
             try {
@@ -328,31 +407,64 @@ public class CommunicationModule extends Thread {
         return null;
     }
 
+    /**
+     * To add an object reference to the binder
+     * @param name
+     * @param objRef
+     */
     public void addObjectReference(String name, RemoteObject objRef){
         this.binder.addObjectReference(name, objRef);
     }
 
+    /**
+     * To set the reference to the binder
+     * @param binder
+     */
     public void setBinder(Binder binder){
         this.binder = binder;
     }
 
+    /**
+     * To set whether to wait for an incoming packet
+     * @param wait
+     */
     public void setWaitingForPacket(boolean wait){
         this.isRunning = wait;
     }
 
+    /**
+     * To get the message type given the byte array payload from a packet
+     * @param payload
+     * @return
+     */
     private MSGTYPE getMessageType (byte[] payload) {
         return getMessageType(payload[0], payload[1]);
     }
 
+    /**
+     * To check if the payload is of message type response
+     * @param payload
+     * @return
+     */
     private boolean isResponse(byte[] payload) {
         MSGTYPE messageType = getMessageType(payload[0], payload[1]);
         return (messageType == MSGTYPE.NON_IDEMPOTENT_RESPONSE || messageType == MSGTYPE.IDEMPOTENT_RESPONSE);
     }
 
+    /**
+     * To get the integer request id from the payload
+     * @param payload
+     * @return
+     */
     private int getRequestId (byte[] payload) {
-        return getBytesAsHalfWord(Arrays.copyOfRange(payload, 2, 4));
+        return ByteUtils.getBytesAsHalfWord(Arrays.copyOfRange(payload, 2, 4));
     }
 
+    /**
+     * To print the message head information onto the console
+     * @param packet
+     * @param isIncoming
+     */
     private void printMessageHead (DatagramPacket packet, boolean isIncoming) {
         if (this.printMessageHeadOn) {
             String arrow = isIncoming ? " IN  " : " OUT ";
@@ -360,10 +472,19 @@ public class CommunicationModule extends Thread {
         }
     }
 
+    /**
+     * To set whether to show the message header information on the console
+     * @param on
+     */
     public void setPrintMessageHead (boolean on) {
         this.printMessageHeadOn = on;
     }
 
+    /**
+     * To print whether a message is executed
+     * @param packet
+     * @param isExecuted
+     */
     public void printMessageHistory (DatagramPacket packet, boolean isExecuted) {
         if (this.printMessageHeadOn) {
             String retrieve = isExecuted ? " STR_MSG   " : " RTRV_MSG ";
@@ -371,6 +492,11 @@ public class CommunicationModule extends Thread {
         }
     }
 
+    /**
+     * To retuen the message header string for printing
+     * @param packet
+     * @return
+     */
     private String messageHeadString (DatagramPacket packet) {
         String ipAddress = packet.getAddress().toString();
         int port = packet.getPort();
@@ -380,10 +506,19 @@ public class CommunicationModule extends Thread {
         return "t: " + (System.currentTimeMillis() % 600000l) + " " + messageType.toString() + " " + ipAddress + ":" + port +" requestID {" + requestId + "} ";
     }
 
+    /**
+     * Returns true if the response has been received for the request ID specified
+     * @param requestId
+     * @return
+     */
     public boolean gotResponse(int requestId) {
         return receivedResponse.containsKey(requestId) && receivedResponse.get(requestId);
     }
 
+    /**
+     * Returns true if the packet is simulated to be loss based on a random function and predefined loss rate
+     * @return
+     */
     public boolean isPacketLoss() {
         return random.nextFloat() <= this.lossRate;
     }

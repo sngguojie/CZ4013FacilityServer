@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class BookingSystemImpl implements BookingSystem {
 
-    MonitorCallbackProxy mbp;
+    MonitorCallbackProxy mcp;
     private int objectID;
     public static int BSobjectID = 0;
 
@@ -33,55 +33,70 @@ public class BookingSystemImpl implements BookingSystem {
             return getInvaidFacilityNameErrorMessage(facilityName);
         }
         String result = facilityName + "\n";
-        String[] daysArray = daysString.split(" ");
-        for (String dayStr : daysArray) {
-            result += getFacilityDayAvailability(facilityName, Integer.parseInt(dayStr));
+        for (String dayStr : daysString.split(" ")) {
+            int dayInt = Integer.parseInt(dayStr);
+            result += getFacilityDayAvailability(facilityName, dayInt) + "\n";
         }
         return result;
     }
-    private String getFacilityDayAvailability (String facilityName, int d) {
-        Booking.DAYS day = getDay(d);
-        if (isValidFacilityName(facilityName)) {
-            return getInvaidFacilityNameErrorMessage(facilityName);
-        }
-        Facility facility = Facility.facilityHashMap.get(facilityName);
+
+    /**
+     * Returns a string for the bookings for the day specified.
+     * @param facilityName
+     * @param dayInt
+     * @return
+     */
+    private String getFacilityDayAvailability (String facilityName, int dayInt) {
+        Booking.DAYS day = getDay(dayInt);
+        if (day == null) return "";
+        Facility facility = getFacility(facilityName);
         ArrayList<Booking> bookings = facility.bookings.get(day);
-        String result = "Success Get " + facilityName + " " + getDayString(day) + " ";
+        String result = getDayString(day) + " ";
         for (Booking b : bookings) {
             result += b.toString() + " ";
         }
         return result;
     }
 
-    public String bookFacility (String facilityName, int d, int s, int e) {
+    /**
+     * Attempt to book a facility on a specified day, start and end time.
+     * Returns the String message output for the attempt.
+     * There is monitor callback executed here if the booking attempt is succeessful.
+     * @param facilityName
+     * @param dayInt
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public String bookFacility (String facilityName, int dayInt, int startTime, int endTime) {
         if (isValidFacilityName(facilityName)) {
             return getInvaidFacilityNameErrorMessage(facilityName);
         }
-        Booking.DAYS day = getDay(d);
+        Booking.DAYS day = getDay(dayInt);
         if (day == null) {
-            return "Error Book Day " + Integer.toString(d);
+            return "Error Book Day " + Integer.toString(dayInt);
         }
-        Facility facility = Facility.facilityHashMap.get(facilityName);
+        Facility facility = getFacility(facilityName);
         ArrayList<Booking> bookings = facility.bookings.get(day);
-        Booking temp = new Booking(s, e, day, facility);
-        if (!temp.isValid()) {
-            return ("Error Book Time " + Integer.toString(s) + "-" + Integer.toString(e));
+        Booking tempBooking = new Booking(startTime, endTime, day, facility);
+        if (!tempBooking.isValid()) {
+            return ("Error Book Time " + Integer.toString(startTime) + "-" + Integer.toString(endTime));
         }
         boolean isConflict = false;
         Booking conflictedBooking = null;
         for (Booking b : bookings) {
-            if (temp.conflict(b)) {
+            if (tempBooking.conflict(b)) {
                 isConflict = true;
                 conflictedBooking = b;
             }
         }
         if (isConflict) {
-            return "Error Book Conflict " + temp.toString() + " " + conflictedBooking.toString();
+            return getBookingConflictErrorMessage(tempBooking, conflictedBooking);
         }
-        bookings.add(temp);
-        Confirmation confirmation = new Confirmation(temp);
+        bookings.add(tempBooking);
+        Confirmation confirmation = new Confirmation(tempBooking);
         int confirmationID = confirmation.save();
-        mbp.displayAvailability(facilityName);
+        mcp.displayAvailability(facilityName);
         return "Success Book ConfirmID " + Integer.toString(confirmationID);
     }
 
@@ -114,16 +129,24 @@ public class BookingSystemImpl implements BookingSystem {
             }
         }
         if (isConflict) {
-            return "Error Change Conflict " + copy.toString() + " " + conflictedBooking.toString();
+            return getBookingConflictErrorMessage(copy, conflictedBooking);
         }
         confirmation.booking = copy;
         String successMessage = "Change Request for ConfirmID " + Integer.toString(confirmIDInt) + " from " + initial.toString() + " to " + copy.toString() + " is successful!";
         bookings.remove(initial);
         bookings.add(copy);
-        mbp.displayAvailability(copy.facility.name);
+        mcp.displayAvailability(copy.facility.name);
         return successMessage;
     }
 
+    /**
+     * Attempts to extend an existing booking by an offset (in minutes)
+     * The booking is uniquely identified by the confirmation ID
+     * Returns a String output message.
+     * @param confirmID
+     * @param offset
+     * @return
+     */
     public String extendBooking (String confirmID, int offset){
         int confirmIDInt = Integer.parseInt(confirmID);
         if (!Confirmation.confirmationHashMap.containsKey(confirmIDInt)) {
@@ -147,21 +170,29 @@ public class BookingSystemImpl implements BookingSystem {
             }
         }
         if (isConflict) {
-            return "Error Extend Conflict " + copy.toString() + " " + conflictedBooking.toString();
+            getBookingConflictErrorMessage(copy, conflictedBooking);
         }
         confirmation.booking = copy;
         String successMessage = "Extend Request for ConfirmID " + Integer.toString(confirmIDInt) + " from " + initial.toString() + " to " + copy.toString() + " is successful!";
         bookings.remove(initial);
         bookings.add(copy);
-        mbp.displayAvailability(copy.facility.name);
+        mcp.displayAvailability(copy.facility.name);
         return successMessage;
     };
 
+    /**
+     * Registers a clients to monitor a facility
+     * @param facilityName
+     * @param address
+     * @param intervalMinutes
+     * @param port
+     * @return
+     */
     public String monitorFacility (String facilityName, String address, int intervalMinutes, int port) {
         if (isValidFacilityName(facilityName)) {
             return getInvaidFacilityNameErrorMessage(facilityName);
         }
-        Facility facility = Facility.facilityHashMap.get(facilityName);
+        Facility facility = getFacility(facilityName);
         long now = System.currentTimeMillis();
         long expiry = now + ((long) intervalMinutes) * 60000l;
         try {
@@ -174,6 +205,10 @@ public class BookingSystemImpl implements BookingSystem {
         }
     }
 
+    /**
+     * Returns a String message listing the names of the facilities in the system.
+     * @return
+     */
     public String listFacilities () {
         String result = "The list of facilities are:\n";
         for (Facility f : Facility.facilityHashMap.values()) {
@@ -195,9 +230,14 @@ public class BookingSystemImpl implements BookingSystem {
         this.objectID = BSobjectID;
     }
 
-    private Booking.DAYS getDay (int d) {
+    /**
+     * To map an integer to an enum in DAYS
+     * @param dayInt
+     * @return
+     */
+    private Booking.DAYS getDay (int dayInt) {
         Booking.DAYS day = null;
-        switch (d) {
+        switch (dayInt) {
             case 0: day = Booking.DAYS.MON; break;
             case 1: day = Booking.DAYS.TUE; break;
             case 2: day = Booking.DAYS.WED; break;
@@ -210,34 +250,67 @@ public class BookingSystemImpl implements BookingSystem {
         return day;
     }
 
-    private String getDayString (Booking.DAYS day) {
-        switch (day) {
-            case MON: return "MON";
-            case TUE: return "TUE";
-            case WED: return "WED";
-            case THU: return "THU";
-            case FRI: return "FRI";
-            case SAT: return "SAT";
-            case SUN: return "SUN";
-            default: return null;
+    /**
+     * To map the DAYS enum to a String. Returns an empty string for NULL input.
+     * @param dayEnum
+     * @return
+     */
+    private String getDayString (Booking.DAYS dayEnum) {
+        switch (dayEnum) {
+            case MON: return "MONDAY   ";
+            case TUE: return "TUESDAY  ";
+            case WED: return "WEDNESDAY";
+            case THU: return "THURSDAY ";
+            case FRI: return "FRIDAY   ";
+            case SAT: return "SATURDAY ";
+            case SUN: return "SUNDAY   ";
+            default: return "";
         }
     }
 
-    public void setMonitorBroadcastProxy (MonitorCallbackProxy mbp) {
-        this.mbp = mbp;
+    /**
+     * To set the reference to monitor callback proxy object
+     * @param mcp
+     */
+    public void setMonitorBroadcastProxy (MonitorCallbackProxy mcp) {
+        this.mcp = mcp;
     }
 
-    public int getObjectID(){
-        return this.objectID;
-    }
-
-    public boolean isValidFacilityName (String facilityName) {
+    /**
+     * Checks if the facility name is in the booking system
+     * @param facilityName
+     * @return
+     */
+    private boolean isValidFacilityName (String facilityName) {
         return Facility.facilityHashMap.containsKey(facilityName);
     }
 
+    /**
+     * Returns an error message string based on an invalid facility name
+     * @param facilityName
+     * @return
+     */
     private String getInvaidFacilityNameErrorMessage (String facilityName) {
         return "Error: " + facilityName + " is not one of the facilities available.";
     }
 
+    /**
+     * Returns a Facility reference based on the facility name
+     * @param facilityName
+     * @return
+     */
+    private Facility getFacility (String facilityName) {
+        return Facility.facilityHashMap.get(facilityName);
+    }
+
+    /**
+     * Returns an error message string based on two conflicting booking objects.
+     * @param booking1
+     * @param booking2
+     * @return
+     */
+    private String getBookingConflictErrorMessage (Booking booking1, Booking booking2) {
+        return "Error: Booking Conflict between " + booking1.toString() + " and " + booking2.toString();
+    }
 
 }

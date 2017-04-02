@@ -71,7 +71,7 @@ public class Main {
         bsi.setMonitorBroadcastProxy(mbp);
 
         // add object to local binder
-//        b.addObjectReference("MonitorCallbackProxy", mbp);
+//        b.addObjectReference("MonitorCallbackProxy", mcp);
         b.addObjectReference(Integer.toString(bsi.hashCode()), bss);
 
         communicationModule.start();

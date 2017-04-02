@@ -22,6 +22,10 @@ public class Facility {
         }
     }
 
+    /**
+     * To store the facility with a unique ID
+     * @return
+     */
     public boolean save () {
         if (facilityHashMap.containsKey(this.name)) {
             return false;
@@ -30,6 +34,10 @@ public class Facility {
         return true;
     }
 
+    /**
+     * To get the availability of the whole week for the facility instance
+     * @return
+     */
     public String getWeekAvailability () {
         String result = this.name + "\n";
         for (Booking.DAYS d : this.bookings.keySet()) {
@@ -43,15 +51,20 @@ public class Facility {
         return result;
     }
 
-    public String getDayString (Booking.DAYS Bday) {
-        switch (Bday) {
-            case MON: return "MON";
-            case TUE: return "TUE";
-            case WED: return "WED";
-            case THU: return "THU";
-            case FRI: return "FRI";
-            case SAT: return "SAT";
-            case SUN: return "SUN";
+    /**
+     * To get the String Representation of the day
+     * @param dayEnum
+     * @return
+     */
+    public String getDayString (Booking.DAYS dayEnum) {
+        switch (dayEnum) {
+            case MON: return "MONDAY   ";
+            case TUE: return "TUESDAY  ";
+            case WED: return "WEDNESDAY";
+            case THU: return "THURSDAY ";
+            case FRI: return "FRIDAY   ";
+            case SAT: return "SATURDAY ";
+            case SUN: return "SUNDAY   ";
             default: return null;
         }
     }

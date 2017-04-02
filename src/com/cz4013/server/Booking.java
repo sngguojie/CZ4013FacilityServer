@@ -16,6 +16,10 @@ public class Booking {
         this.facility = facility;
     }
 
+    /**
+     * Returns a String of the start time and end time of the booking instance in the format "12:30-13:30"
+     * @return
+     */
     public String toString () {
         int startHour = start / 60;
         int startMinute = start % 60;
@@ -25,6 +29,11 @@ public class Booking {
                 + Integer.toString(endHour) + ":" + Integer.toString(endMinute);
     }
 
+    /**
+     * Compares with another booking instance to check for timing conflict between the two bookings
+     * @param other
+     * @return
+     */
     public boolean conflict (Booking other) {
         if (!this.facility.equals(other.facility)) {
             return false;
@@ -38,6 +47,10 @@ public class Booking {
         }
     }
 
+    /**
+     * Checks if the booking is valid based on the input data of the booking
+     * @return
+     */
     public boolean isValid () {
         if (this.start < 0) {
             return false;

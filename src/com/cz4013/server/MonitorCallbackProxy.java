@@ -1,19 +1,19 @@
 package com.cz4013.server;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-
 /**
  * Created by melvynsng on 3/30/17.
  */
-public class MonitorCallbackProxy implements MonitorBroadcast, RemoteObject {
+public class MonitorCallbackProxy implements MonitorCallback, RemoteObject {
 
     CommunicationModule communicationModule;
 
     public MonitorCallbackProxy() {
     }
 
+    /**
+     * To send the requests to display the availability of a facility to all clients registered to monitor the facility
+     * @param facilityName
+     */
     public void displayAvailability(String facilityName) {
         String availability = "";
 
@@ -38,12 +38,21 @@ public class MonitorCallbackProxy implements MonitorBroadcast, RemoteObject {
 
     }
 
+    /**
+     * To handle any request sent to the Monitor Callback Proxy Instance
+     * @param requestBody
+     * @return
+     */
     public byte[] handleRequest (byte[] requestBody) {
         return null;
     };
 
-    public void setCommunicationModule (CommunicationModule cm) {
-        this.communicationModule = cm;
+    /**
+     * To set the reference to the communication module
+     * @param communicationModule
+     */
+    public void setCommunicationModule (CommunicationModule communicationModule) {
+        this.communicationModule = communicationModule;
     }
 
 }
