@@ -1,8 +1,6 @@
 package com.cz4013.server;
 
-/**
- * Created by melvynsng on 3/29/17.
- */
+
 public class Booking {
 
     public static enum DAYS {MON, TUE, WED, THU, FRI, SAT, SUN};

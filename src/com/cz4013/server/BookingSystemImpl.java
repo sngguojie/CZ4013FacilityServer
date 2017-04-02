@@ -13,28 +13,36 @@ public class BookingSystemImpl implements BookingSystem {
     private int objectID;
     public static int BSobjectID = 0;
 
+    /**
+     * Constructor that calls the initialise method.
+     */
     public BookingSystemImpl() {
         initialise();
     }
 
-    public String getFacilityAvailability (String facilityName, String d) {
-        if (!Facility.facilityHashMap.containsKey(facilityName)) {
-            return "Error Get Unrecognised FacilityName " + facilityName;
+    /**
+     * Returns a String message output that the user on the client will see.
+     * This method takes the facility name and the day string (in the format "0 1 2 3")
+     *
+     * @param facilityName
+     * @param daysString
+     * @return
+     */
+    public String getFacilityAvailability (String facilityName, String daysString) {
+        if (isValidFacilityName(facilityName)) {
+            return getInvaidFacilityNameErrorMessage(facilityName);
         }
-        String result = "";
-        String[] daysArray = d.split(" ");
-        for (String s : daysArray) {
-            result += getFacilityDayAvailability(facilityName, Integer.parseInt(s));
+        String result = facilityName + "\n";
+        String[] daysArray = daysString.split(" ");
+        for (String dayStr : daysArray) {
+            result += getFacilityDayAvailability(facilityName, Integer.parseInt(dayStr));
         }
         return result;
     }
     private String getFacilityDayAvailability (String facilityName, int d) {
-        if (!Facility.facilityHashMap.containsKey(facilityName)) {
-            return "Error Get Unrecognised FacilityName " + facilityName;
-        }
         Booking.DAYS day = getDay(d);
-        if (day == null) {
-            return "Error Get Unrecognised Day " + Integer.toString(d);
+        if (isValidFacilityName(facilityName)) {
+            return getInvaidFacilityNameErrorMessage(facilityName);
         }
         Facility facility = Facility.facilityHashMap.get(facilityName);
         ArrayList<Booking> bookings = facility.bookings.get(day);
@@ -46,8 +54,8 @@ public class BookingSystemImpl implements BookingSystem {
     }
 
     public String bookFacility (String facilityName, int d, int s, int e) {
-        if (!Facility.facilityHashMap.containsKey(facilityName)) {
-            return "Error Book FacilityName " + facilityName;
+        if (isValidFacilityName(facilityName)) {
+            return getInvaidFacilityNameErrorMessage(facilityName);
         }
         Booking.DAYS day = getDay(d);
         if (day == null) {
@@ -77,6 +85,12 @@ public class BookingSystemImpl implements BookingSystem {
         return "Success Book ConfirmID " + Integer.toString(confirmationID);
     }
 
+    /**
+     * Returns the string message output for the user requesting a change in booking.
+     * @param confirmID
+     * @param offset
+     * @return
+     */
     public String changeBooking (String confirmID, int offset) {
         int confirmIDInt = Integer.parseInt(confirmID);
         if (!Confirmation.confirmationHashMap.containsKey(confirmIDInt)) {
@@ -144,8 +158,8 @@ public class BookingSystemImpl implements BookingSystem {
     };
 
     public String monitorFacility (String facilityName, String address, int intervalMinutes, int port) {
-        if (!Facility.facilityHashMap.containsKey(facilityName)) {
-            return "Error Monitor FacilityName " + facilityName;
+        if (isValidFacilityName(facilityName)) {
+            return getInvaidFacilityNameErrorMessage(facilityName);
         }
         Facility facility = Facility.facilityHashMap.get(facilityName);
         long now = System.currentTimeMillis();
@@ -169,7 +183,9 @@ public class BookingSystemImpl implements BookingSystem {
     }
 
 
-
+    /**
+     * To initialise dummy data in the system for testing purposes
+     */
     private void initialise () {
         Facility meetingRoom1 = new Facility("MeetingRoom1");
         meetingRoom1.save();
@@ -214,5 +230,14 @@ public class BookingSystemImpl implements BookingSystem {
     public int getObjectID(){
         return this.objectID;
     }
+
+    public boolean isValidFacilityName (String facilityName) {
+        return Facility.facilityHashMap.containsKey(facilityName);
+    }
+
+    private String getInvaidFacilityNameErrorMessage (String facilityName) {
+        return "Error: " + facilityName + " is not one of the facilities available.";
+    }
+
 
 }
