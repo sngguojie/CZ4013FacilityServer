@@ -1,12 +1,14 @@
 package com.cz4013.server;
 
+import java.util.ArrayList;
+
 /**
  * Created by melvynsng on 3/30/17.
  */
 public class MonitorCallbackProxy implements MonitorCallback, RemoteObject {
 
     CommunicationModule communicationModule;
-
+    ArrayList<Monitor> expired = new ArrayList<Monitor>();
     public MonitorCallbackProxy() {
     }
 
@@ -21,6 +23,7 @@ public class MonitorCallbackProxy implements MonitorCallback, RemoteObject {
         availability += facility.getWeekAvailability();
 
         for (Monitor m : facility.monitorList) {
+            if (expired.contains(m)) {}
             if (m.expiry < System.currentTimeMillis()) {
                 availability = "Expired";
             }
@@ -32,7 +35,7 @@ public class MonitorCallbackProxy implements MonitorCallback, RemoteObject {
 
             communicationModule.sendRequest(false,marshalledBytes, m.address, m.port);
             if (availability.equals("Expired")) {
-                facility.monitorList.remove(m);
+                expired.add(m);
             }
         }
 

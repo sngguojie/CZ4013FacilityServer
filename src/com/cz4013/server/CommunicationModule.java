@@ -240,6 +240,13 @@ public class CommunicationModule extends Thread {
 
     }
 
+    /**
+     * Returns a unique string for each client request
+     * @param requestID
+     * @param address
+     * @param port
+     * @return
+     */
     private String getClientRequestString (int requestID, String address, int port) {
         return address +" "+Integer.toString(port)+" "+Integer.toString(requestID);
     }
