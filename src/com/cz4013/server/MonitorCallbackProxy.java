@@ -1,5 +1,7 @@
 package com.cz4013.server;
 
+import java.util.Iterator;
+
 /**
  * Created by melvynsng on 3/30/17.
  */
@@ -20,7 +22,10 @@ public class MonitorCallbackProxy implements MonitorCallback, RemoteObject {
         Facility facility = Facility.facilityHashMap.get(facilityName);
         availability += facility.getWeekAvailability();
 
-        for (Monitor m : facility.monitorList) {
+        for (Iterator<Monitor> iterator = facility.monitorList.iterator(); iterator.hasNext(); ) {
+
+            Monitor m = iterator.next();
+
             if (m.expiry < System.currentTimeMillis()) {
                 availability = "Expired";
             }
@@ -32,12 +37,13 @@ public class MonitorCallbackProxy implements MonitorCallback, RemoteObject {
 
             communicationModule.sendRequest(false,marshalledBytes, m.address, m.port);
             if (availability.equals("Expired")) {
-                facility.monitorList.remove(m);
+                iterator.remove();
             }
         }
 
     }
 
+    
     /**
      * To handle any request sent to the Monitor Callback Proxy Instance
      * @param requestBody
