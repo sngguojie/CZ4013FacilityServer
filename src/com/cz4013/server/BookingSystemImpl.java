@@ -107,7 +107,12 @@ public class BookingSystemImpl implements BookingSystem {
      * @return
      */
     public String changeBooking (String confirmID, int offset) {
-        int confirmIDInt = Integer.parseInt(confirmID);
+        int confirmIDInt = -1;
+        try {
+            confirmIDInt = Integer.parseInt(confirmID);
+        } catch (NumberFormatException e){
+            return "Invalid Confirmation ID";
+        }
         if (!Confirmation.confirmationHashMap.containsKey(confirmIDInt)) {
             return "Error Change ConfirmID " + Integer.toString(confirmIDInt);
         }
@@ -148,7 +153,12 @@ public class BookingSystemImpl implements BookingSystem {
      * @return
      */
     public String extendBooking (String confirmID, int offset){
-        int confirmIDInt = Integer.parseInt(confirmID);
+        int confirmIDInt = -1;
+        try {
+            confirmIDInt = Integer.parseInt(confirmID);
+        } catch (NumberFormatException e){
+            return "Invalid Confirmation ID";
+        }
         if (!Confirmation.confirmationHashMap.containsKey(confirmIDInt)) {
             return "Error Extend ConfirmID " + Integer.toString(confirmIDInt);
         }

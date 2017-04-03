@@ -63,7 +63,7 @@ public class Main {
         // add dependencies
 
         communicationModule.setPrintMessageHead(true);
-        communicationModule.setLossRate(0.2f);
+        communicationModule.setLossRate(0.0f);
         communicationModule.setBinder(b);
         mbp.setCommunicationModule(communicationModule);
         bss.setCommunicationModule(communicationModule);
