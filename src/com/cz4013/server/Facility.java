@@ -40,7 +40,7 @@ public class Facility {
      */
     public String getWeekAvailability () {
         String result = this.name + "\n";
-        for (Booking.DAYS d : this.bookings.keySet()) {
+        for (Booking.DAYS d : Booking.DAYS.values()) {
             String dayString = getDayString(d);
             result += dayString + " ";
             for (Booking b : this.bookings.get(d)) {
