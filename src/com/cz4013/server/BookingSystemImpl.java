@@ -29,7 +29,7 @@ public class BookingSystemImpl implements BookingSystem {
      * @return
      */
     public String getFacilityAvailability (String facilityName, String daysString) {
-        if (isValidFacilityName(facilityName)) {
+        if (!isValidFacilityName(facilityName)) {
             return getInvaidFacilityNameErrorMessage(facilityName);
         }
         String result = facilityName + "\n";
@@ -69,7 +69,7 @@ public class BookingSystemImpl implements BookingSystem {
      * @return
      */
     public String bookFacility (String facilityName, int dayInt, int startTime, int endTime) {
-        if (isValidFacilityName(facilityName)) {
+        if (!isValidFacilityName(facilityName)) {
             return getInvaidFacilityNameErrorMessage(facilityName);
         }
         Booking.DAYS day = getDay(dayInt);
@@ -189,7 +189,7 @@ public class BookingSystemImpl implements BookingSystem {
      * @return
      */
     public String monitorFacility (String facilityName, String address, int intervalMinutes, int port) {
-        if (isValidFacilityName(facilityName)) {
+        if (!isValidFacilityName(facilityName)) {
             return getInvaidFacilityNameErrorMessage(facilityName);
         }
         Facility facility = getFacility(facilityName);

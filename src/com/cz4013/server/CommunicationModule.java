@@ -10,8 +10,8 @@ import java.util.Random;
 public class CommunicationModule extends Thread {
     protected boolean isRunning = true;
     protected DatagramSocket socket = null;
-    protected HashMap<byte[], byte[]> messageHistory = new HashMap<byte[], byte[]>();
-    protected HashMap<byte[], Boolean> receivedRequest = new HashMap<byte[], Boolean>();
+    protected HashMap<String, byte[]> messageHistory = new HashMap<String, byte[]>();
+    protected HashMap<String, Boolean> receivedRequest = new HashMap<String, Boolean>();
     protected enum MSGTYPE {IDEMPOTENT_REQUEST, NON_IDEMPOTENT_REQUEST, IDEMPOTENT_RESPONSE, NON_IDEMPOTENT_RESPONSE};
     protected enum DATATYPE {STRING, INT};
     protected InetAddress serverAddress;
@@ -180,46 +180,47 @@ public class CommunicationModule extends Thread {
         byte[] inHead = Arrays.copyOfRange(payload, 0, 4);
         byte[] inBody = Arrays.copyOfRange(payload, 4, payload.length);
         byte[] outHead, outBody, out;
+        String clientRequestString = getClientRequestString(requestId, address.toString(), port);
 
         switch (messageType) {
             case IDEMPOTENT_REQUEST:
                 System.out.println("this.atLeastOnce" + this.atLeastOne);
-                System.out.println("messageHistory.containsKey(inHead)" + messageHistory.containsKey(inHead));
-                if (!this.atLeastOne && messageHistory.containsKey(inHead)) {
-                    out = messageHistory.get(inHead);
+                System.out.println("messageHistory.containsKey(clientRequestString)" + messageHistory.containsKey(clientRequestString));
+                if (!this.atLeastOne && messageHistory.containsKey(clientRequestString)) {
+                    out = messageHistory.get(clientRequestString);
                     sendReponsePacketOut(out, address, port);
                     System.out.println("get message from messageHistory");
                     break;
                 }
-                if (!this.atLeastOne && receivedRequest.containsKey(inHead)) {
+                if (!this.atLeastOne && receivedRequest.containsKey(clientRequestString)) {
                     break;
                 }
-                receivedRequest.put(inHead, true);
+                receivedRequest.put(clientRequestString, true);
                 outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
                 outBody = getRemoteObjectResponse(inBody);
                 out = ByteUtils.combineByteArrays(outHead, outBody);
-                messageHistory.put(inHead,out);
+                messageHistory.put(clientRequestString,out);
                 System.out.println("store message in messageHistory");
                 sendReponsePacketOut(out, address, port);
                 break;
             case NON_IDEMPOTENT_REQUEST:
                 System.out.println("this.atLeastOnce" + this.atLeastOne);
-                System.out.println("messageHistory.containsKey(inHead)" + messageHistory.containsKey(inHead));
-                if (!this.atLeastOne && messageHistory.containsKey(inHead)) {
-                    out = messageHistory.get(inHead);
+                System.out.println("messageHistory.containsKey(inHead)" + messageHistory.containsKey(clientRequestString));
+                if (!this.atLeastOne && messageHistory.containsKey(clientRequestString)) {
+                    out = messageHistory.get(clientRequestString);
                     sendReponsePacketOut(out, address, port);
                     System.out.println("get message from messageHistory");
                     break;
                 }
-                if (!this.atLeastOne && receivedRequest.containsKey(inHead)) {
+                if (!this.atLeastOne && receivedRequest.containsKey(clientRequestString)) {
                     break;
                 }
-                receivedRequest.put(inHead, true);
+                receivedRequest.put(clientRequestString, true);
 
                 outHead = getResponseHead(MSGTYPE.IDEMPOTENT_RESPONSE, requestId);
                 outBody = getRemoteObjectResponse(inBody);
                 out = ByteUtils.combineByteArrays(outHead, outBody);
-                messageHistory.put(inHead,out);
+                messageHistory.put(clientRequestString,out);
                 System.out.println("store message in messageHistory");
                 sendReponsePacketOut(out, address, port);
                 break;
@@ -237,6 +238,10 @@ public class CommunicationModule extends Thread {
                 break;
         }
 
+    }
+
+    private String getClientRequestString (int requestID, String address, int port) {
+        return address +" "+Integer.toString(port)+" "+Integer.toString(requestID);
     }
 
     /**
